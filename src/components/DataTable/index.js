@@ -1,6 +1,7 @@
 import { Button, Table } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
-const DataTable = ({ users, deleteUser, setModal, setUpdateUser, value }) => {
+const DataTable = ({ users, deleteUser, setModal, setUpdateUser, value}) => {
   const handleClick = (user) => {
     setModal({ name: "Update User", active: true });
     setUpdateUser(user);
@@ -29,7 +30,7 @@ const DataTable = ({ users, deleteUser, setModal, setUpdateUser, value }) => {
                   alt={user.firstname}
                 />
               </td>
-              <td>{user.firstname}</td>
+              <td><Link to={`/datatablebooks/${user.id}`}>{user.firstname}</Link></td>
               <td>{user.lastname}</td>
               <td>{user.email}</td>
               <td>{user.birthdate.split("T")[0]}</td>
