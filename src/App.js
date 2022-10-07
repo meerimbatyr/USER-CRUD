@@ -3,6 +3,7 @@ import DataTableBooks from "./components/DataTableBooks";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import User from "./components/User";
+import Book from './components/Book'
 
 import "./styles.css";
 
