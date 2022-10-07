@@ -1,3 +1,4 @@
+
 import { Button, Table } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -106,6 +107,11 @@ const DataTableBooks = (props) => {
           </tbody>
         </Table>
       )}
+
+    
+    
+    
+     
     </>
   );
 };
