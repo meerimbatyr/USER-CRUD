@@ -17,6 +17,13 @@ const User = () => {
   const [modal, setModal] = useState({ name: "", active: false });
   const [currentPage, setCurrentPage] = useState(1);
 
+  useEffect(() => {
+    fetchUsers();
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
+
+
+
   // Constants
   const itemPerPage = 10;
   const maxPages = Math.ceil(users.length / itemPerPage);
@@ -53,19 +60,24 @@ const User = () => {
       setLoading(false);
     }
   };
+  
 
-  const deleteUser = async (id) => {
-    try {
-      const res = await axios.delete(
-        `https://6300279d34344b643105731e.mockapi.io/api/v1/users/${id}`
-      );
-      fetchUsers();
-    } catch (err) {
-      console.error("Error fetching users", err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const deleteUser = async (id) =>{
+    setModal({ active: false });
+    setLoading(true);
+
+    try{
+        await axios.delete(`https://6300279d34344b643105731e.mockapi.io/api/v1/users/${id}`)
+        const filterUsers = users.filter((user) => user.id !== id)
+        setUsers(filterUsers)
+    }catch{
+        console.log("some error with deleting")
+    }finally {
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
+      }
+  }
 
   const setUpdateUser = (user) => {
     localStorage.setItem("user", JSON.stringify(user));
@@ -103,10 +115,7 @@ const User = () => {
     return users.slice(startIndex, endIndex);
   };
 
-  useEffect(() => {
-    fetchUsers();
-    setUser(JSON.parse(localStorage.getItem("user")));
-  }, []);
+
 
   return (
     <Container>
