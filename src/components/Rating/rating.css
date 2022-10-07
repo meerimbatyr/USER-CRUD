@@ -9,4 +9,5 @@ input[type="radio"] {
   text-align: center;
   border: solid 1px lightgrey;
   box-shadow: var(--box-shadow);
+  background: whitesmoke;
 }

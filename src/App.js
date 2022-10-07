@@ -3,7 +3,8 @@ import DataTableBooks from "./components/DataTableBooks";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import User from "./components/User";
-import Book from './components/Book'
+import Book from "./components/Book";
+import Reviews from "./components/Reviews";
 
 import "./styles.css";
 
@@ -16,6 +17,7 @@ export default function App() {
           <Route path="/" element={<User />} />
           <Route path="/datatablebooks/:id" element={<DataTableBooks />} />
           <Route path="/datatablebooks/details/:id" element={<Book />} />
+          <Route path="/details/reviews/:id" element={<Reviews />} />
         </Routes>
 
         <Footer />

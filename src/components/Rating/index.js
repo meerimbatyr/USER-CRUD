@@ -2,9 +2,11 @@ import { FaStar } from "react-icons/fa";
 import React from "react";
 import { useState } from "react";
 import "./rating.css";
+import { Link, useParams } from "react-router-dom";
+
 // import { Link } from "react-router-dom";
 
-const Rating = () => {
+const Rating = (props) => {
   const [rating, setRating] = useState(null);
   const [hovered, setHovered] = useState(null);
   const [dropDown, setDropDown] = useState(false);
@@ -12,9 +14,9 @@ const Rating = () => {
   const showDropDown = () => {
     setDropDown(true);
   };
-  const hideDropDown = setTimeout(() => {
+  const hideDropDown = () => {
     setDropDown(false);
-  }, 6000);
+  };
   return (
     <div>
       {[...Array(5)].map((star, index) => {
@@ -43,7 +45,9 @@ const Rating = () => {
       })}
       {dropDown ? (
         <div className="review" onMouseOver={showDropDown}>
-          <p>Leave a review...</p>
+          <Link to={`/reviews/`}>
+            <p>Leave a review...</p>
+          </Link>
         </div>
       ) : null}
     </div>

@@ -12,6 +12,9 @@ function Book(props) {
           src="https://www.imgacademy.com/sites/default/files/2022-07/img-homepage-meta.jpg"
           alt=""
         />
+        <div className="rating">
+          <Rating />
+        </div>
       </div>
 
       <div>
@@ -27,7 +30,6 @@ function Book(props) {
         </p>
         <Button variant="primary">Update</Button>
       </div>
-      <Rating />
     </div>
   );
 }
