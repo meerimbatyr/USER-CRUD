@@ -1,31 +1,51 @@
-import React from 'react';
-import "./Book.css"
-import { Button, Table } from "react-bootstrap";
+import React from "react";
+import "./Book.css";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 function Book(props) {
-    return (
+  const location = useLocation();
+  const { state } = location;
+  const navigate = useNavigate();
+  console.log(navigate);
+  console.log(location.state);
+  return (
+    <section className="book">
+      <header>
+        <h2>Title: {state.title}</h2>
+      </header>
+      <div className="book-info">
+        <img src={state.cover} alt={state.title} />
+        <div>
+          <p>
+            <strong>Author:</strong> {state.author}
+          </p>
+          <p>
+            <strong>Genre:</strong> {state.genre}
+          </p>
+          <p>
+            <strong>Edition:</strong> {state.edition}
+          </p>
+          <p>
+            <strong>ISBN:</strong> {state.isbn}
+          </p>
+          <p>
+            <strong>Description:</strong> {state.description}
+          </p>
 
-        <div className='book'>
-            <div>
-                <h2>Title: {}</h2>
-                <img src="https://www.imgacademy.com/sites/default/files/2022-07/img-homepage-meta.jpg" alt="" />
+          <Button
+            variant="secondary"
+            className="btn btn-lg"
+            onClick={() => navigate(-1)}
+          >
+            Go Back
+          </Button>
 
-            </div>
-            <div>
-                <p><span>Author:</span> Lorem, ipsum dolor.</p>
-                <p><span>Genre:</span> Lorem.</p>
-                <p><span>Description:</span> Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam, porro!</p>
-                <Button variant="primary">
-                  Update
-                </Button>
-            </div>
-        
-
-            {/* review component */}
-
-            
+          <Button variant="primary btn-lg">Update</Button>
         </div>
-    );
+      </div>
+    </section>
+  );
 }
 
 export default Book;

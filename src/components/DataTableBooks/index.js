@@ -1,7 +1,6 @@
-
 import { Button, Table } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loader from "../Loader";
 
@@ -10,6 +9,7 @@ const DataTableBooks = (props) => {
   const [loading, setLoading] = useState(false);
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const fetchbooks = async () => {
     setLoading(true);
@@ -17,14 +17,14 @@ const DataTableBooks = (props) => {
       const res = await axios.get(
         `https://6300279d34344b643105731e.mockapi.io/api/v1/users/${id}/books`
       );
+      console.log(res.data);
       setBooks(res.data);
-      console.log(books);
     } catch (err) {
-      console.error("Error fetching users", err);
+      console.error("Error fetching books", err);
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 500);
+      }, 1000);
     }
   };
 
@@ -52,6 +52,13 @@ const DataTableBooks = (props) => {
 
   return (
     <>
+      <Button
+        variant="primary"
+        className="btn my-3 float-start mx-5"
+        onClick={() => navigate(-1)}
+      >
+        Go Back
+      </Button>
       {loading ? (
         <Loader />
       ) : (
@@ -80,7 +87,10 @@ const DataTableBooks = (props) => {
                     />
                   </td>
                   <td>
-                    <Link to={`/datatablebooks/details/${book.id}`}>
+                    <Link
+                      to={`/datatablebooks/details/${book.id}`}
+                      state={book}
+                    >
                       {book.title}
                     </Link>
                   </td>
@@ -107,11 +117,6 @@ const DataTableBooks = (props) => {
           </tbody>
         </Table>
       )}
-
-    
-    
-    
-     
     </>
   );
 };
