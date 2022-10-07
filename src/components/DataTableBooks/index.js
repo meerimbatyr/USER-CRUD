@@ -35,54 +35,75 @@ const {id} = useParams()
 
   }, []);
 
+  const deleteBook = async (bookID) =>{
+    setLoading(true);
+
+    try{
+        await axios.delete(`https://6300279d34344b643105731e.mockapi.io/api/v1/users/${id}/books/${bookID}`)
+        const filteredBooks = books.filter((book) => book.id !== bookID)
+        setBooks(filteredBooks)
+    }catch{
+        console.log("some error with deleting")
+    }finally {
+        setTimeout(() => {
+          setLoading(false);
+        }, 500);
+      }
+  }
+
 return(
     <>
-     <Table striped bordered hover>
-      <thead className="bg-dark text-light">
-        <tr>
-          <th>Cover</th>
-          <th>Title</th>
-          <th>Author</th>
-          <th>Genre</th>
-          <th>Description</th>
-          <th>ISBN</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
+    {loading ? <Loader/> : 
+    <Table striped bordered hover>
+    <thead className="bg-dark text-light">
+      <tr>
+        <th>Cover</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Description</th>
+        <th>ISBN</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
 
-      <tbody>
-        {books.length ? (
-          books.map((book) => (
-            <tr key={book.userId}>
-              <td className="field-avatar">
-                <img
-                  style={{ width: "100px" }}
-                  src={book.cover}
-                  alt={book.title}
-                />
-              </td>
-              <td>{book.title}</td>
-              <td>{book.author}</td>
-              <td>{book.genre}</td>
-              <td>{book.description}</td>
-              <td>{book.isbn}</td>
-              <td>
-                <Button variant="primary">
-                  Update
-                </Button>
-                <Button variant="danger">
-                  Delete
-                </Button>
-              </td>
-            </tr>
-          ))
-        ) : (
-          <tr>
-            <td colSpan="6">No Record Found!</td>
+    <tbody>
+      {books.length ? (
+        books.map((book) => (
+          <tr key={book.userId}>
+            <td className="field-avatar">
+              <img
+                style={{ width: "100px" }}
+                src={book.cover}
+                alt={book.title}
+              />
+            </td>
+            <td>{book.title}</td>
+            <td>{book.author}</td>
+            <td>{book.genre}</td>
+            <td>{book.description}</td>
+            <td>{book.isbn}</td>
+            <td>
+              <Button variant="primary">
+                Update
+              </Button>
+              <Button variant="danger" onClick={() => deleteBook(book.id)}>
+                Delete
+              </Button>
+            </td>
           </tr>
-        )}
-      </tbody>
-    </Table>
+        ))
+      ) : (
+        <tr>
+          <td colSpan="6">No Record Found!</td>
+        </tr>
+      )}
+    </tbody>
+  </Table>
+    
+    
+    }
+     
     </>
 )
 }

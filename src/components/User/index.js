@@ -113,7 +113,7 @@ const User = () => {
     setValue(searchValue);
     setFilteredUsers([]);
     const keys = ["firstname", "lastname", "email"];
-    if(value.length){
+    if(value.length > 1){
       let filteredData = []
       filteredData = (users.filter((user) => {
         return keys.some((key) =>
@@ -123,7 +123,7 @@ const User = () => {
       );
       filteredData.length ? setFilteredUsers (filteredData) : setFilteredUsers([])
       console.log(filteredUsers)
-    }
+    } 
   };
 
 
