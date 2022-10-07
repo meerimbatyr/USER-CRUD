@@ -12,13 +12,12 @@ export default function App() {
       <>
         <Header />
         <Routes>
-          <Route path="/datatablebooks/:id"  element={<DataTableBooks/>} />
-          <Route path="/"  element={<User/>} />
-        
+          <Route path="/" element={<User />} />
+          <Route path="/datatablebooks/:id" element={<DataTableBooks />} />
+          <Route path="/datatablebooks/details/:id" element={<Book />} />
         </Routes>
-        
+
         <Footer />
-        
       </>
     </div>
   );
