@@ -16,10 +16,12 @@ const User = () => {
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState({ name: "", active: false });
   const [currentPage, setCurrentPage] = useState(1);
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
     fetchUsers();
     setUser(JSON.parse(localStorage.getItem("user")));
+    
   }, []);
 
 
@@ -27,6 +29,12 @@ const User = () => {
   // Constants
   const itemPerPage = 10;
   const maxPages = Math.ceil(users.length / itemPerPage);
+  const indexOfLasPost = currentPage * itemPerPage;
+  const indexOfFirst = indexOfLasPost - itemPerPage;
+  const totalUsers = filteredUsers.length ? filteredUsers.length : users.length;
+  const currentUsers = filteredUsers.length ? filteredUsers.slice(indexOfFirst, indexOfLasPost) 
+    : users.slice(indexOfFirst, indexOfLasPost) 
+
 
   // Fetching Users API
   const fetchUsers = async () => {
@@ -100,20 +108,29 @@ const User = () => {
     }
   };
 
-  const search = (users) => {
+  const search = (searchValue) => {
+    setCurrentPage(1)
+    setValue(searchValue);
+    setFilteredUsers([]);
     const keys = ["firstname", "lastname", "email"];
-    return users.filter((user) => {
-      return keys.some((key) =>
-        user[key].toLowerCase().includes(value.toLowerCase())
+    if(value.length > 1){
+      let filteredData = []
+      filteredData = (users.filter((user) => {
+        return keys.some((key) =>
+          user[key].toLowerCase().includes(searchValue.toLowerCase())
+        );
+      })
       );
-    });
+      filteredData.length ? setFilteredUsers (filteredData) : setFilteredUsers([])
+      console.log(filteredUsers)
+    } 
   };
 
-  const paginatedUsers = () => {
-    const startIndex = (currentPage - 1) * itemPerPage;
-    const endIndex = startIndex + itemPerPage;
-    return users.slice(startIndex, endIndex);
-  };
+
+  const pagination = (pageNumber) => {
+    setValue("")
+    setCurrentPage(pageNumber)
+  }
 
 
 
@@ -125,7 +142,7 @@ const User = () => {
         <>
           <Row className="mb-3">
             <Col className="col-sm-9 col-md-6 col-lg-4 ">
-              <Search setValue={setValue} />
+              <Search setValue={setValue} search={search}/>
             </Col>
           </Row>
           <Row className="mb-3">
@@ -134,6 +151,9 @@ const User = () => {
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
                 maxPages={maxPages}
+                pagination={pagination}
+                totalUsers={totalUsers}
+                itemPerPage={itemPerPage}
               />
             </Col>
             <Col className="text-end">
@@ -145,10 +165,12 @@ const User = () => {
             </Col>
           </Row>
           <DataTable
-            users={search(paginatedUsers())}
+            users={currentUsers}
+            filteredUsers={filteredUsers}
             deleteUser={deleteUser}
             setModal={setModal}
             setUpdateUser={setUpdateUser}
+            value={value}
           />
         </>
       )}

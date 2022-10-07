@@ -1,7 +1,7 @@
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const DataTable = ({ users, deleteUser, setModal, setUpdateUser, value}) => {
+const DataTable = ({ value, users, deleteUser, setModal, setUpdateUser, filteredUsers}) => {
   const handleClick = (user) => {
     setModal({ name: "Update User", active: true });
     setUpdateUser(user);
@@ -20,8 +20,9 @@ const DataTable = ({ users, deleteUser, setModal, setUpdateUser, value}) => {
       </thead>
 
       <tbody>
-        {users.length ? (
-          users.map((user) => (
+        {value.length ? (
+          filteredUsers.length ? (
+          filteredUsers.map((user) => (
             <tr key={user.id}>
               <td className="field-avatar">
                 <img
@@ -45,10 +46,35 @@ const DataTable = ({ users, deleteUser, setModal, setUpdateUser, value}) => {
             </tr>
           ))
         ) : (
-          <tr>
-            <td colSpan="6">No Record Found!</td>
-          </tr>
-        )}
+          <tr><td>No records found</td></tr>
+         )
+        ) : (
+          users.map((user) => (
+            <tr key={user.id}>
+              <td className="field-avatar">
+                <img
+                  style={{ width: "100px" }}
+                  src={user.avatar}
+                  alt={user.firstname}
+                />
+              </td>
+              <td><Link to={`/datatablebooks/${user.id}`}>{user.firstname}</Link></td>
+              <td>{user.lastname}</td>
+              <td>{user.email}</td>
+              <td>{user.birthdate.split("T")[0]}</td>
+              <td>
+                <Button onClick={() => handleClick(user)} variant="primary">
+                  Update
+                </Button>
+                <Button onClick={() => deleteUser(user.id)} variant="danger">
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          ))
+          )
+          
+        }
       </tbody>
     </Table>
   );
