@@ -1,6 +1,6 @@
 import { Form } from "react-bootstrap";
 
-const Search = ({ setValue }) => {
+const Search = ({ search}) => {
   return (
     <Form>
       <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -8,7 +8,7 @@ const Search = ({ setValue }) => {
         <Form.Control
           type="text"
           placeholder="Enter name..."
-          onChange={(e) => setValue(e.target.value)}
+          onChange={(e) => search(e.target.value)}
         />
       </Form.Group>
     </Form>
