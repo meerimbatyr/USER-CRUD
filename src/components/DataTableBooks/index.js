@@ -82,7 +82,7 @@ const DataTableBooks = (props) => {
                   <td>
                     <Link 
                     to={`/datatablebooks/details/${book.id}`}
-                    state={book}
+                    
                     >
                       {book.title}
                     </Link>

@@ -1,31 +1,24 @@
 import React from 'react';
 import "./Book.css"
 import { Button, Table } from "react-bootstrap";
-import { useLocation } from "react-router-dom"
-import { useEffect } from "react"
 
 function Book(props) {
 
     
-    const { state } = useLocation();
-    useEffect=(() => {
-        console.log(state)
-
-
-    },[])
+  
 
     return (
 
         <div className='book'>
             <div>
-                <h2>Title: {state.title}</h2>
-                <img src={state.cover} alt="" />
+                <h2>Title: {}</h2>
+                <img src={""} alt="" />
 
             </div>
             <div>
-                <p><span>Author:</span> {state.author}</p>
-                <p><span>Genre:</span> {state.genre}</p>
-                <p><span>Description:</span>{state.description}</p>
+                <p><span>Author:</span> {}</p>
+                <p><span>Genre:</span> {}</p>
+                <p><span>Description:</span>{}</p>
                 <Button variant="primary">
                   Update
                 </Button>
