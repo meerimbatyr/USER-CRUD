@@ -1,15 +1,20 @@
 import { Button, Table } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import Loader from "../Loader";
+import Loader from "../../Loader";
+import { Modal } from "bootstrap";
+import CreateBook from "../CreateBook";
 
 const DataTableBooks = (props) => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState();
 
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
 
   const fetchbooks = async () => {
     setLoading(true);
@@ -58,6 +63,13 @@ const DataTableBooks = (props) => {
         onClick={() => navigate(-1)}
       >
         Go Back
+      </Button>
+      <Button
+        variant="primary"
+        className="btn my-3 float-start mx-5"
+        onClick={() => setModal({ name: "Create Book", active: true })}
+      >
+        Create book
       </Button>
       {loading ? (
         <Loader />
@@ -117,6 +129,11 @@ const DataTableBooks = (props) => {
           </tbody>
         </Table>
       )}
+      {/* {modal.active && (
+        <Modal show={modal.active} onHide={() => setModal({ active: false })}>
+          {modal.name === "Create Book" && <CreateBook />}
+        </Modal>
+      )} */}
     </>
   );
 };

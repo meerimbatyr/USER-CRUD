@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import CreateUser from "../CreateUser";
 import DataTable from "../DataTable";
-import Loader from "../Loader";
-import Pagination1 from "../Pagination";
-import Search from "../Search";
+import Loader from "../../Loader";
+import Pagination1 from "../../Pagination";
+import Search from "../../Search";
 import UpdateUser from "../UpdateUser";
 
 const User = () => {
@@ -21,10 +21,7 @@ const User = () => {
   useEffect(() => {
     fetchUsers();
     setUser(JSON.parse(localStorage.getItem("user")));
-    
   }, []);
-
-
 
   // Constants
   const itemPerPage = 10;
@@ -32,9 +29,9 @@ const User = () => {
   const indexOfLasPost = currentPage * itemPerPage;
   const indexOfFirst = indexOfLasPost - itemPerPage;
   const totalUsers = filteredUsers.length ? filteredUsers.length : users.length;
-  const currentUsers = filteredUsers.length ? filteredUsers.slice(indexOfFirst, indexOfLasPost) 
-    : users.slice(indexOfFirst, indexOfLasPost) 
-
+  const currentUsers = filteredUsers.length
+    ? filteredUsers.slice(indexOfFirst, indexOfLasPost)
+    : users.slice(indexOfFirst, indexOfLasPost);
 
   // Fetching Users API
   const fetchUsers = async () => {
@@ -68,24 +65,23 @@ const User = () => {
       setLoading(false);
     }
   };
-  
 
-  const deleteUser = async (id) =>{
+  const deleteUser = async (id) => {
     setModal({ active: false });
     setLoading(true);
 
-    try{
-        await axios.delete(`https://6300279d34344b643105731e.mockapi.io/api/v1/users/${id}`)
-        const filterUsers = users.filter((user) => user.id !== id)
-        setUsers(filterUsers)
-    }catch{
-        console.log("some error with deleting")
-    }finally {
-        setTimeout(() => {
-          setLoading(false);
-        }, 500);
-      }
-  }
+    try {
+      await axios.delete(
+        `https://6300279d34344b643105731e.mockapi.io/api/v1/users/${id}`
+      );
+      const filterUsers = users.filter((user) => user.id !== id);
+      setUsers(filterUsers);
+    } catch {
+      console.log("some error with deleting");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const setUpdateUser = (user) => {
     localStorage.setItem("user", JSON.stringify(user));
@@ -109,30 +105,27 @@ const User = () => {
   };
 
   const search = (searchValue) => {
-    setCurrentPage(1)
+    setCurrentPage(1);
     setValue(searchValue);
     setFilteredUsers([]);
     const keys = ["firstname", "lastname", "email"];
-    if(value.length > 1){
-      let filteredData = []
-      filteredData = (users.filter((user) => {
+    if (value.length > 1) {
+      let filteredData = [];
+      filteredData = users.filter((user) => {
         return keys.some((key) =>
           user[key].toLowerCase().includes(searchValue.toLowerCase())
         );
-      })
-      );
-      filteredData.length ? setFilteredUsers (filteredData) : setFilteredUsers([])
-      console.log(filteredUsers)
-    } 
+      });
+      filteredData.length
+        ? setFilteredUsers(filteredData)
+        : setFilteredUsers([]);
+    }
   };
 
-
   const pagination = (pageNumber) => {
-    setValue("")
-    setCurrentPage(pageNumber)
-  }
-
-
+    setValue("");
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <Container>
@@ -142,7 +135,7 @@ const User = () => {
         <>
           <Row className="mb-3">
             <Col className="col-sm-9 col-md-6 col-lg-4 ">
-              <Search setValue={setValue} search={search}/>
+              <Search setValue={setValue} search={search} />
             </Col>
           </Row>
           <Row className="mb-3">
