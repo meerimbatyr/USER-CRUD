@@ -7,8 +7,7 @@ function Book(props) {
   const location = useLocation();
   const { state } = location;
   const navigate = useNavigate();
-  console.log(navigate);
-  console.log(location.state);
+
   return (
     <section className="book">
       <header>

@@ -6,7 +6,7 @@ function Header() {
     <>
       <Navbar bg="dark" variant="dark" className="mb-3">
         <Container>
-          <Navbar.Brand href="#home">React Users CRUD</Navbar.Brand>
+          <Navbar.Brand href="/">React Users CRUD</Navbar.Brand>
         </Container>
       </Navbar>
     </>

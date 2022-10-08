@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Loader from "../../Loader";
-import { Modal } from "bootstrap";
-import CreateBook from "../CreateBook";
+// import { Modal } from "bootstrap";
+// import CreateBook from "../CreateBook";
 
 const DataTableBooks = (props) => {
   const [books, setBooks] = useState([]);
