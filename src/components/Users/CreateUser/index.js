@@ -8,7 +8,7 @@ const CreateUser = ({ modal, createUser, setModal }) => {
     lastname: "",
     email: "",
     avatar: "",
-    birthdate: ""
+    birthdate: "",
   };
   const [user, setUser] = useState(initialData);
   const onInputChange = (e) => {
@@ -18,7 +18,7 @@ const CreateUser = ({ modal, createUser, setModal }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!user.firstName || !user.lastName) return;
+    if (!user.firstname || !user.lastname) return;
     createUser(user);
   };
   return (

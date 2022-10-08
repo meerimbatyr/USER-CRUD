@@ -1,7 +1,15 @@
+import { useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const DataTable = ({ value, users, deleteUser, setModal, setUpdateUser, filteredUsers}) => {
+const DataTable = ({
+  value,
+  users,
+  deleteUser,
+  setModal,
+  setUpdateUser,
+  filteredUsers,
+}) => {
   const handleClick = (user) => {
     setModal({ name: "Update User", active: true });
     setUpdateUser(user);
@@ -22,32 +30,38 @@ const DataTable = ({ value, users, deleteUser, setModal, setUpdateUser, filtered
       <tbody>
         {value.length ? (
           filteredUsers.length ? (
-          filteredUsers.map((user) => (
-            <tr key={user.id}>
-              <td className="field-avatar">
-                <img
-                  style={{ width: "100px" }}
-                  src={user.avatar}
-                  alt={user.firstname}
-                />
-              </td>
-              <td><Link to={`/datatablebooks/${user.id}`}>{user.firstname}</Link></td>
-              <td>{user.lastname}</td>
-              <td>{user.email}</td>
-              <td>{user.birthdate.split("T")[0]}</td>
-              <td>
-                <Button onClick={() => handleClick(user)} variant="primary">
-                  Update
-                </Button>
-                <Button onClick={() => deleteUser(user.id)} variant="danger">
-                  Delete
-                </Button>
-              </td>
+            filteredUsers.map((user) => (
+              <tr key={user.id}>
+                <td className="field-avatar">
+                  <img
+                    style={{ width: "100px" }}
+                    src={user.avatar}
+                    alt={user.firstname}
+                  />
+                </td>
+                <td>
+                  <Link to={`/datatablebooks/${user.id}`} state={setModal}>
+                    {user.firstname}
+                  </Link>
+                </td>
+                <td>{user.lastname}</td>
+                <td>{user.email}</td>
+                <td>{user.birthdate.split("T")[0]}</td>
+                <td>
+                  <Button onClick={() => handleClick(user)} variant="primary">
+                    Update
+                  </Button>
+                  <Button onClick={() => deleteUser(user.id)} variant="danger">
+                    Delete
+                  </Button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td>No records found</td>
             </tr>
-          ))
-        ) : (
-          <tr><td>No records found</td></tr>
-         )
+          )
         ) : (
           users.map((user) => (
             <tr key={user.id}>
@@ -58,7 +72,11 @@ const DataTable = ({ value, users, deleteUser, setModal, setUpdateUser, filtered
                   alt={user.firstname}
                 />
               </td>
-              <td><Link to={`/datatablebooks/${user.id}`}>{user.firstname}</Link></td>
+              <td>
+                <Link to={`/datatablebooks/${user.id}`} state={setModal}>
+                  {user.firstname}
+                </Link>
+              </td>
               <td>{user.lastname}</td>
               <td>{user.email}</td>
               <td>{user.birthdate.split("T")[0]}</td>
@@ -72,9 +90,7 @@ const DataTable = ({ value, users, deleteUser, setModal, setUpdateUser, filtered
               </td>
             </tr>
           ))
-          )
-          
-        }
+        )}
       </tbody>
     </Table>
   );

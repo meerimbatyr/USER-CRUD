@@ -1,15 +1,20 @@
-
 import { Button, Table } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
-import Loader from "../Loader";
+import Loader from "../../Loader";
+// import { Modal } from "bootstrap";
+// import CreateBook from "../CreateBook";
 
 const DataTableBooks = (props) => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState();
 
   const { id } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
 
   const fetchbooks = async () => {
     setLoading(true);
@@ -17,14 +22,14 @@ const DataTableBooks = (props) => {
       const res = await axios.get(
         `https://6300279d34344b643105731e.mockapi.io/api/v1/users/${id}/books`
       );
+      console.log(res.data);
       setBooks(res.data);
-      console.log(books);
     } catch (err) {
-      console.error("Error fetching users", err);
+      console.error("Error fetching books", err);
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 500);
+      }, 1000);
     }
   };
 
@@ -52,6 +57,20 @@ const DataTableBooks = (props) => {
 
   return (
     <>
+      <Button
+        variant="primary"
+        className="btn my-3 float-start mx-5"
+        onClick={() => navigate(-1)}
+      >
+        Go Back
+      </Button>
+      <Button
+        variant="primary"
+        className="btn my-3 float-start mx-5"
+        onClick={() => setModal({ name: "Create Book", active: true })}
+      >
+        Create book
+      </Button>
       {loading ? (
         <Loader />
       ) : (
@@ -80,9 +99,9 @@ const DataTableBooks = (props) => {
                     />
                   </td>
                   <td>
-                    <Link 
-                    to={`/datatablebooks/details/${book.id}`}
-                    
+                    <Link
+                      to={`/datatablebooks/details/${book.id}`}
+                      state={book}
                     >
                       {book.title}
                     </Link>
@@ -110,11 +129,11 @@ const DataTableBooks = (props) => {
           </tbody>
         </Table>
       )}
-
-    
-    
-    
-     
+      {/* {modal.active && (
+        <Modal show={modal.active} onHide={() => setModal({ active: false })}>
+          {modal.name === "Create Book" && <CreateBook />}
+        </Modal>
+      )} */}
     </>
   );
 };

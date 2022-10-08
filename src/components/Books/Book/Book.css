@@ -1,0 +1,39 @@
+.book {
+  border: 1px dashed rgba(0, 0, 0, 0.403);
+  border-radius: 0.5rem;
+  width: 70%;
+  padding: 2rem;
+  margin: 5rem auto;
+  box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.7);
+  -webkit-box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.7);
+}
+
+.book h2 {
+  margin: 2rem auto;
+  font-weight: 900;
+}
+
+.book-info {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 2rem;
+}
+
+.book img {
+  width: 24rem;
+  border: 2px solid black;
+  border-radius: 0.5rem;
+  box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.7);
+  -webkit-box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.7);
+}
+
+.book p {
+  font-size: 1.2rem;
+  letter-spacing: 0.02rem;
+}
+
+.btn {
+  margin-right: 1rem;
+}
