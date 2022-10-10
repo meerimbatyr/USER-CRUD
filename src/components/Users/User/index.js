@@ -7,6 +7,7 @@ import Loader from "../../Loader";
 import Pagination1 from "../../Pagination";
 import Search from "../../Search";
 import UpdateUser from "../UpdateUser";
+import InputLoadingSpiner from "../../Input-loader";
 
 const User = () => {
   // Local State
@@ -14,6 +15,7 @@ const User = () => {
   const [user, setUser] = useState("");
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
+  const [inputLoading, setInputLoading] = useState(false)
   const [modal, setModal] = useState({ name: "", active: false });
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredUsers, setFilteredUsers] = useState([]);
@@ -105,11 +107,12 @@ const User = () => {
   };
 
   const search = (searchValue) => {
+    setInputLoading(true)
     setCurrentPage(1);
     setValue(searchValue);
     setFilteredUsers([]);
     const keys = ["firstname", "lastname", "email"];
-    if (value.length > 1) {
+    if (searchValue.length > 0) {
       let filteredData = [];
       filteredData = users.filter((user) => {
         return keys.some((key) =>
@@ -120,6 +123,10 @@ const User = () => {
         ? setFilteredUsers(filteredData)
         : setFilteredUsers([]);
     }
+    setTimeout(()=>{
+      setInputLoading(false)
+
+    },400)
   };
 
   const pagination = (pageNumber) => {
@@ -134,9 +141,13 @@ const User = () => {
       ) : (
         <>
           <Row className="mb-3">
+          
             <Col className="col-sm-9 col-md-6 col-lg-4 ">
               <Search setValue={setValue} search={search} />
+              {(inputLoading && <InputLoadingSpiner/>)}
+              
             </Col>
+            
           </Row>
           <Row className="mb-3">
             <Col className="col-md-6 text-start">
