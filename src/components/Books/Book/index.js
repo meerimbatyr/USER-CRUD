@@ -2,6 +2,7 @@ import React from "react";
 import "./Book.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import Rating from "../Rating";
 
 function Book(props) {
   const location = useLocation();
@@ -14,7 +15,12 @@ function Book(props) {
         <h2>Title: {state.title}</h2>
       </header>
       <div className="book-info">
-        <img src={state.cover} alt={state.title} />
+        <div className="image">
+          <img src={state.cover} alt={state.title} />
+          <div className="rating">
+            <Rating />
+          </div>
+        </div>
         <div>
           <p>
             <strong>Author:</strong> {state.author}
