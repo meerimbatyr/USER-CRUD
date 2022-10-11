@@ -19,20 +19,14 @@ const CreateBook = ({ modal, setModal, createBook }) => {
     setBook({ ...book, [name]: value });
   };
 
-  const onSubmit = (e) => {
-    const form = e.currentTarget;
-    if (form.checkValidity() === false) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    setValidated(true);
-    //  if (
-    //    !book.title ||
-    //    book.isbn.length > 8 ||
-    //    !book.edition ||
-    //    !book.description
-    //  )
-    //    return;
+  const onSubmit = () => {
+    if (
+      !book.title ||
+      book.isbn.length > 8 ||
+      !book.edition ||
+      !book.description
+    )
+      return;
     createBook(book);
   };
   return (
@@ -41,7 +35,7 @@ const CreateBook = ({ modal, setModal, createBook }) => {
         <Modal.Title>{modal.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form noValidate validated={validated} onSubmit={onSubmit}>
+        <Form>
           <Form.Group className="mb-3" controlId="validationCustom01">
             <Form.Label>Title</Form.Label>
             <Form.Control
@@ -69,7 +63,6 @@ const CreateBook = ({ modal, setModal, createBook }) => {
           <Form.Group className="mb-3">
             <Form.Label>Genre</Form.Label>
             <Form.Control
-              required
               type="text"
               placeholder="Genre"
               name="genre"
@@ -128,7 +121,7 @@ const CreateBook = ({ modal, setModal, createBook }) => {
         <Button variant="secondary" onClick={() => setModal({ active: false })}>
           Close
         </Button>
-        <Button variant="primary" type="submit">
+        <Button variant="primary" onClick={onSubmit}>
           Save Changes
         </Button>
       </Modal.Footer>
