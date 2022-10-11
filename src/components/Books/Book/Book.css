@@ -17,6 +17,7 @@
 .book-info {
   display: flex;
   justify-content: space-evenly;
+
   gap: 2rem;
 }
 
@@ -36,4 +37,10 @@
 
 .btn {
   margin-right: 1rem;
+}
+.rating {
+  margin-top: 20px;
+}
+.image {
+  text-align: center;
 }
