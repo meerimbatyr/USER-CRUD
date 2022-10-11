@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
+
 const DataTable = ({
   value,
   users,
@@ -40,7 +41,7 @@ const DataTable = ({
                   />
                 </td>
                 <td>
-                  <Link to={`/datatablebooks/${user.id}`} state={setModal}>
+                  <Link to={`/books/${user.id}`} state={setModal}>
                     {user.firstname}
                   </Link>
                 </td>
@@ -73,7 +74,7 @@ const DataTable = ({
                 />
               </td>
               <td>
-                <Link to={`/datatablebooks/${user.id}`} state={setModal}>
+                <Link to={`/books/${user.id}`} state={setModal}>
                   {user.firstname}
                 </Link>
               </td>
