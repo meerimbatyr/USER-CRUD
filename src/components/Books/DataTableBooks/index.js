@@ -137,7 +137,7 @@ const DataTableBooks = (props) => {
                 <tr key={book.id}>
                   <td className="field-avatar">
                     <img
-                      style={{ width: "100px" }}
+                      style={{ width: "100px", height: "auto" }}
                       src={book.cover}
                       alt={book.title}
                     />
