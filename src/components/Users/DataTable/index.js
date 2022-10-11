@@ -82,7 +82,8 @@ const DataTable = ({
               <td>{user.email}</td>
               <td>{user.birthdate.split("T")[0]}</td>
               <td>
-                <Button onClick={() => handleClick(user)} variant="primary">
+                
+                  <Button onClick={() => handleClick(user)} variant="primary">
                   Update
                 </Button>
                 <Button onClick={() => deleteUser(user.id)} variant="danger">

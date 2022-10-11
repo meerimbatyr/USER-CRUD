@@ -12,6 +12,7 @@ import "./styles.css";
 import Home from "./pages/Home";
 import Books from "./pages/Books";
 import BookDetails from "./pages/BookDetails";
+import DataTableBooks from "./components/Books/DataTableBooks";
 
 export default function App() {
   return (
