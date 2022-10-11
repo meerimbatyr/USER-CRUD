@@ -1,7 +1,8 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import { useState } from "react";
 
-const CreateBook = ({ modal, setModal }) => {
+const CreateBook = ({ modal, setModal, createBook }) => {
+  const [validated, setValidated] = useState(false);
   const initialData = {
     id: null,
     title: "",
@@ -19,9 +20,20 @@ const CreateBook = ({ modal, setModal }) => {
   };
 
   const onSubmit = (e) => {
-    e.preventDefault();
-    if (!book.title || !book.isbn) return;
-    //  createBook(book);
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    setValidated(true);
+    //  if (
+    //    !book.title ||
+    //    book.isbn.length > 8 ||
+    //    !book.edition ||
+    //    !book.description
+    //  )
+    //    return;
+    createBook(book);
   };
   return (
     <>
@@ -29,10 +41,11 @@ const CreateBook = ({ modal, setModal }) => {
         <Modal.Title>{modal.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
-          <Form.Group className="mb-3">
+        <Form noValidate validated={validated} onSubmit={onSubmit}>
+          <Form.Group className="mb-3" controlId="validationCustom01">
             <Form.Label>Title</Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder="Title"
               name="title"
@@ -44,6 +57,7 @@ const CreateBook = ({ modal, setModal }) => {
           <Form.Group className="mb-3">
             <Form.Label>Author</Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder="Author"
               name="author"
@@ -55,6 +69,7 @@ const CreateBook = ({ modal, setModal }) => {
           <Form.Group className="mb-3">
             <Form.Label>Genre</Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder="Genre"
               name="genre"
@@ -77,6 +92,7 @@ const CreateBook = ({ modal, setModal }) => {
           <Form.Group className="mb-3">
             <Form.Label>Description</Form.Label>
             <Form.Control
+              required
               type="text"
               placeholder="Description"
               name="description"
@@ -87,6 +103,7 @@ const CreateBook = ({ modal, setModal }) => {
           <Form.Group className="mb-3">
             <Form.Label>Edition</Form.Label>
             <Form.Control
+              required
               type="number"
               placeholder="Edition"
               name="edition"
@@ -97,6 +114,7 @@ const CreateBook = ({ modal, setModal }) => {
           <Form.Group className="mb-3">
             <Form.Label>ISBN</Form.Label>
             <Form.Control
+              required
               type="number"
               placeholder="ISBN"
               name="isbn"
@@ -110,7 +128,7 @@ const CreateBook = ({ modal, setModal }) => {
         <Button variant="secondary" onClick={() => setModal({ active: false })}>
           Close
         </Button>
-        <Button variant="primary" onClick={onSubmit}>
+        <Button variant="primary" type="submit">
           Save Changes
         </Button>
       </Modal.Footer>

@@ -1,10 +1,10 @@
+
 import { Button, Table, Modal } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Loader from "../../Loader";
 import UpdateBook from "../UpdateBook";
-
+import { Link, useParams, useNavigate } from "react-router-dom";
 import CreateBook from "../CreateBook";
 
 const DataTableBooks = (props) => {
@@ -15,8 +15,6 @@ const DataTableBooks = (props) => {
 
   const { id } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
-  console.log(location);
 
  const handleBook = (book) => {
   setModal({ name: "Update Book", active: true })
@@ -30,10 +28,29 @@ const DataTableBooks = (props) => {
       const res = await axios.get(
         `https://6300279d34344b643105731e.mockapi.io/api/v1/users/${id}/books`
       );
-      console.log(res.data);
+      // console.log(res.data);
       setBooks(res.data);
     } catch (err) {
       console.error("Error fetching books", err);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
+  };
+
+  const createBook = async (book) => {
+    setLoading(true);
+    setModal({ active: false });
+    try {
+      const res = await axios.post(
+        `https://6300279d34344b643105731e.mockapi.io/api/v1/users/${id}/books`,
+        book
+      );
+      console.log(res);
+      setBooks([...books, res.data]);
+    } catch (err) {
+      console.log("Something went wrong with posting book", err.message);
     } finally {
       setTimeout(() => {
         setLoading(false);
@@ -55,7 +72,7 @@ const DataTableBooks = (props) => {
       const filteredBooks = books.filter((book) => book.id !== bookID);
       setBooks(filteredBooks);
     } catch {
-      console.log("some error with deleting");
+      console.log("some error with deleting a book");
     } finally {
       setTimeout(() => {
         setLoading(false);
@@ -80,6 +97,7 @@ const DataTableBooks = (props) => {
   };
 
   
+
 
   return (
     <>
@@ -125,10 +143,7 @@ const DataTableBooks = (props) => {
                     />
                   </td>
                   <td>
-                    <Link
-                      to={`/datatablebooks/details/${book.id}`}
-                      state={book}
-                    >
+                    <Link to={`/books/details/${book.id}`} state={book}>
                       {book.title}
                     </Link>
                   </td>
@@ -160,7 +175,17 @@ const DataTableBooks = (props) => {
       )}
       {modal.active && (
         <Modal show={modal.active} onHide={() => setModal({ active: false })}>
-          {modal.name === "Create Book" ? <CreateBook /> : 
+
+          
+
+          {modal.name === "Create Book" ? 
+            <CreateBook
+              modal={modal}
+              setModal={setModal}
+              createBook={createBook}
+            /> 
+            
+          : 
           <UpdateBook modal={modal} setModal={setModal} id={id} book={book} setBook={setBook} updateBook={updateBook}/>}
         </Modal>
       )}

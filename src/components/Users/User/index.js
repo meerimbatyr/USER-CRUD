@@ -9,16 +9,20 @@ import Search from "../../Search";
 import UpdateUser from "../UpdateUser";
 import InputLoadingSpiner from "../../Input-loader";
 
+import { GlobalContext } from "../../../context/GlobalState";
+
 const User = () => {
   // Local State
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState("");
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
-  const [inputLoading, setInputLoading] = useState(false)
+  const [inputLoading, setInputLoading] = useState(false);
   const [modal, setModal] = useState({ name: "", active: false });
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredUsers, setFilteredUsers] = useState([]);
+
+  // const modalValue = { modal, setModal };
 
   useEffect(() => {
     fetchUsers();
@@ -107,7 +111,7 @@ const User = () => {
   };
 
   const search = (searchValue) => {
-    setInputLoading(true)
+    setInputLoading(true);
     setCurrentPage(1);
     setValue(searchValue);
     setFilteredUsers([]);
@@ -123,10 +127,9 @@ const User = () => {
         ? setFilteredUsers(filteredData)
         : setFilteredUsers([]);
     }
-    setTimeout(()=>{
-      setInputLoading(false)
-
-    },400)
+    setTimeout(() => {
+      setInputLoading(false);
+    }, 400);
   };
 
   const pagination = (pageNumber) => {
@@ -135,69 +138,70 @@ const User = () => {
   };
 
   return (
-    <Container>
-      {loading ? (
-        <Loader />
-      ) : (
-        <>
-          <Row className="mb-3">
-          
-            <Col className="col-sm-9 col-md-6 col-lg-4 ">
-              <Search setValue={setValue} search={search} />
-              {(inputLoading && <InputLoadingSpiner/>)}
-              
-            </Col>
-            
-          </Row>
-          <Row className="mb-3">
-            <Col className="col-md-6 text-start">
-              <Pagination1
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                maxPages={maxPages}
-                pagination={pagination}
-                totalUsers={totalUsers}
-                itemPerPage={itemPerPage}
+    <GlobalContext.Provider value={{ modal, setModal }}>
+      <Container>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            <Row className="mb-3">
+              <Col className="col-sm-9 col-md-6 col-lg-4 ">
+                <Search setValue={setValue} search={search} />
+                {inputLoading && <InputLoadingSpiner />}
+              </Col>
+            </Row>
+            <Row className="mb-3">
+              <Col className="col-md-6 text-start">
+                <Pagination1
+                  currentPage={currentPage}
+                  setCurrentPage={setCurrentPage}
+                  maxPages={maxPages}
+                  pagination={pagination}
+                  totalUsers={totalUsers}
+                  itemPerPage={itemPerPage}
+                />
+              </Col>
+              <Col className="text-end">
+                <Button
+                  onClick={() =>
+                    setModal({ name: "Create User", active: true })
+                  }
+                >
+                  Create New User
+                </Button>
+              </Col>
+            </Row>
+            <DataTable
+              users={currentUsers}
+              filteredUsers={filteredUsers}
+              deleteUser={deleteUser}
+              setModal={setModal}
+              setUpdateUser={setUpdateUser}
+              value={value}
+            />
+          </>
+        )}
+        {modal.active && (
+          <Modal show={modal.active} onHide={() => setModal({ active: false })}>
+            {modal.name === "Create User" ? (
+              <CreateUser
+                modal={modal}
+                createUser={createUser}
+                setModal={setModal}
               />
-            </Col>
-            <Col className="text-end">
-              <Button
-                onClick={() => setModal({ name: "Create User", active: true })}
-              >
-                Create New User
-              </Button>
-            </Col>
-          </Row>
-          <DataTable
-            users={currentUsers}
-            filteredUsers={filteredUsers}
-            deleteUser={deleteUser}
-            setModal={setModal}
-            setUpdateUser={setUpdateUser}
-            value={value}
-          />
-        </>
-      )}
-      {modal.active && (
-        <Modal show={modal.active} onHide={() => setModal({ active: false })}>
-          {modal.name === "Create User" ? (
-            <CreateUser
-              modal={modal}
-              createUser={createUser}
-              setModal={setModal}
-            />
-          ) : (
-            <UpdateUser
-              modal={modal}
-              updateUser={updateUser}
-              setModal={setModal}
-              user={user}
-              setUser={setUser}
-            />
-          )}
-        </Modal>
-      )}
-    </Container>
+            ) : (
+              <UpdateUser
+                modal={modal}
+                updateUser={updateUser}
+                setModal={setModal}
+                user={user}
+                setUser={setUser}
+              />
+            )}
+          </Modal>
+        )}
+      </Container>
+    </GlobalContext.Provider>
   );
 };
 export default User;
