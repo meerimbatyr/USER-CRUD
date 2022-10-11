@@ -1,28 +1,33 @@
 import React from "react";
-import { FormGroup, Label, Input, Form, Modal } from "react-bootstrap";
-import { useState } from "react";
+import "./review.css";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import { Button } from "react-bootstrap";
 
-const Review = ({ props }) => {
-  const [review, setReview] = useState("");
-  const handleInput = (e) => {
-    e.preventDefault();
-    setReview(e.target.value);
-  };
+
+const Review = ({ el }) => {
+ 
   return (
     <>
-      <Form>
-        <div className="container">
-          <h1>Reviews</h1>
-          <input type="text" />
-          <Button onClick={handleInput}>Submit</Button>
+<section className="review">
+        <div className="review-info">
+          <div className="review-image">
+            <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Translate_logo.max-500x500.png" alt={""} />
+            <p>User Name</p>
+          </div>
+          <div className="rating-info">
+           
+           
+            <p>
+              <strong>Rating:</strong> {el.rating}
+            </p>
+            <p>
+              <strong>Review:</strong> {el.text}
+            </p>
+
+       
+          </div>
         </div>
-        <div>
-          <p>{review}</p>
-        </div>
-      </Form>
+        </section>
+      
     </>
   );
 };

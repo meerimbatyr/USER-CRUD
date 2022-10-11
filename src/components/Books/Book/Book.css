@@ -44,3 +44,16 @@
 .image {
   text-align: center;
 }
+
+.review-section{
+  text-align: center;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.review-section h2{
+  padding: 10px;
+}

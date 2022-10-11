@@ -1,13 +1,42 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "./Book.css";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import Rating from "../Rating";
+import Review from "../Reviews";
+import axios from "axios";
+import Loader from "../../Loader";
 
 function Book(props) {
+
+  const [loading, setLoading] = useState([])
+  const [reviews, setReviews] = useState([])
   const location = useLocation();
   const { state } = location;
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
+
+  const fetchReviews = async () => {
+    setLoading(true);
+    try {
+      const res = await axios.get(
+        `https://6300279d34344b643105731e.mockapi.io/api/v1/users/${state.userId}/books/${state.id}/reviews`
+      );
+      // console.log(res.data);
+      setReviews(res.data);
+    } catch (err) {
+      console.error("Error fetching reviews", err);
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000);
+    }
+  };
 
   return (
     <div>
@@ -18,9 +47,7 @@ function Book(props) {
         <div className="book-info">
           <div className="image">
             <img src={state.cover} alt={state.title} />
-            <div>
-              <Rating />
-            </div>
+           
           </div>
           <div>
             <p>
@@ -51,6 +78,15 @@ function Book(props) {
           </div>
         </div>
       </section>
+            <div>
+              <Rating book={state} fetchReviews={fetchReviews}/>
+            </div>
+            <div className="review-section">
+              <h2>Reviews: </h2>
+              {reviews.map((el) => <Review el = {el} key={el.id}/> )}
+             </div>
+             
+            
     </div>
   );
 }

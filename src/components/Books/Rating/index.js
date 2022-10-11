@@ -1,13 +1,22 @@
 import { FaStar } from "react-icons/fa";
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./rating.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
-const Rating = (props) => {
+const Rating = ( {book, fetchReviews} ) => {
   const [rating, setRating] = useState(null);
   const [hovered, setHovered] = useState(null);
   const [dropDown, setDropDown] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [text, setText] = useState('');
+  const [review, setReview] = useState({})
+  const ref = useRef()
+
+  // useEffect(() => {
+  //   console.log(rating, text)
+  // },[text])
 
   const showDropDown = () => {
     setDropDown(true);
@@ -15,9 +24,51 @@ const Rating = (props) => {
   const hideDropDown = () => {
     setDropDown(false);
   };
+
+  const onSubmit = () => {
+    let newText = ref.current.value
+    // let newRating = ref.current.value
+    setReview({text: newText, rating: rating})
+    postReview(review);
+    
+  };
+
+  useEffect(() => {
+    console.log(text, rating)
+
+  },[text, rating])
+
+
+
+const postReview = async (obj) => {
+  setLoading(true);
+  try {
+    const res = await axios.post(
+      `https://6300279d34344b643105731e.mockapi.io/api/v1/users/${book.userId}/books/${book.id}/reviews`,
+      obj
+    );
+    console.log(res);
+    fetchReviews()
+  } catch (err) {
+    console.log("Something went wrong with posting review", err.message);
+  } finally {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  }
+
+}
+
+
+
+
   return (
-    <div>
-      {[...Array(5)].map((star, index) => {
+    
+     
+      
+        <div className="review" >
+
+{[...Array(5)].map((star, index) => {
         const ratingValue = index + 1;
         return (
           <label>
@@ -41,17 +92,14 @@ const Rating = (props) => {
           </label>
         );
       })}
-      {dropDown ? (
-        <div className="review" onMouseOver={showDropDown}>
-          {/* <Link to={`/reviews/`}> */}
+         
           <p>Leave a review...</p>
-          <textarea placeholder="What's your feedback?" />
+          <textarea ref={ref} value={text} onChange={(e) => setText(e.target.value)} placeholder="What's your feedback?" />
           <br />
-          <button className="btn-submit">Submit</button>
-          {/* </Link> */}
+          <button className="btn-submit" onClick={onSubmit}>Submit</button>
+          
         </div>
-      ) : null}
-    </div>
+    
   );
 };
 
