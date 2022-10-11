@@ -1,18 +1,24 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import { useState } from "react";
 
-const CreateBook = ({ modal, setModal }) => {
-  const initialData = {
-    id: null,
-    title: "",
-    author: "",
-    genre: "",
-    cover: "",
-    description: "",
-    isbn: "",
-    ediiton: "",
-  };
-  const [book, setBook] = useState(initialData);
+const UpdateBook = ({ modal, setModal, id, book, setBook, updateBook }) => {
+
+  // const initialData = {
+  //   id: book.id,
+  //   title: book.title,
+  //   author: book.author,
+  //   genre: book.genre,
+  //   cover: book.cover,
+  //   description: book.description,
+  //   isbn: book.isbn,
+  //   edititon: book.edition,
+  // };
+  
+  // const [book, setBook] = useState(initialData);
+
+
+
+
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setBook({ ...book, [name]: value });
@@ -21,7 +27,7 @@ const CreateBook = ({ modal, setModal }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (!book.title || !book.isbn) return;
-    //  createBook(book);
+    updateBook(id, book)
   };
   return (
     <>
@@ -117,4 +123,4 @@ const CreateBook = ({ modal, setModal }) => {
     </>
   );
 };
-export default CreateBook;
+export default UpdateBook;
