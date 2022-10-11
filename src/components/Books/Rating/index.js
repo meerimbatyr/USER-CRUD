@@ -43,9 +43,12 @@ const Rating = (props) => {
       })}
       {dropDown ? (
         <div className="review" onMouseOver={showDropDown}>
-          <Link to={`/reviews/`}>
-            <p>Leave a review...</p>
-          </Link>
+          {/* <Link to={`/reviews/`}> */}
+          <p>Leave a review...</p>
+          <textarea placeholder="What's your feedback?" />
+          <br />
+          <button className="btn-submit">Submit</button>
+          {/* </Link> */}
         </div>
       ) : null}
     </div>

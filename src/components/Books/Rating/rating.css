@@ -10,4 +10,12 @@ input[type="radio"] {
   border: solid 1px lightgrey;
   box-shadow: var(--box-shadow);
   background: whitesmoke;
+  /* width: 200px;
+  margin-left: 100px; */
+}
+.btn-submit {
+  border: 0.5px lightgrey solid;
+  background-color: lightgrey;
+  margin-bottom: 10px;
+  border-radius: 5px;
 }
