@@ -1,20 +1,26 @@
-import { useState, useEffect, useContext } from "react";
-import { Link, useParams, useNavigate } from "react-router-dom";
-import { GlobalContext } from "../../../context/GlobalState";
+
+import { Button, Table, Modal } from "react-bootstrap";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "../../Loader";
-import { Button, Table, Modal } from "react-bootstrap";
+import UpdateBook from "../UpdateBook";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import CreateBook from "../CreateBook";
 
 const DataTableBooks = (props) => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
-  // const { modal, setModal } = useContext(GlobalContext);
-  // console.log(modal);
   const [modal, setModal] = useState({ name: "", active: false });
+  const [book, setBook] = useState({})
 
   const { id } = useParams();
   const navigate = useNavigate();
+
+ const handleBook = (book) => {
+  setModal({ name: "Update Book", active: true })
+  setBook(book)
+
+ }
 
   const fetchbooks = async () => {
     setLoading(true);
@@ -74,6 +80,25 @@ const DataTableBooks = (props) => {
     }
   };
 
+  const updateBook = async (userID, book) => {
+    setModal({ active: false });
+    setLoading(true);
+    try {
+      const res = await axios.put(
+        `https://6300279d34344b643105731e.mockapi.io/api/v1/users/${userID}/books/${book.id}`,
+        book
+      );
+      fetchbooks();
+    } catch (err) {
+      console.error("Error fetching users", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  
+
+
   return (
     <>
       <Button
@@ -127,7 +152,10 @@ const DataTableBooks = (props) => {
                   <td>{book.description}</td>
                   <td>{book.isbn}</td>
                   <td>
-                    <Button variant="primary">Update</Button>
+                    <Button variant="primary"
+                      onClick={() => handleBook(book) }>
+                      Update
+                      </Button>
                     <Button
                       variant="danger"
                       onClick={() => deleteBook(book.id)}
@@ -147,13 +175,18 @@ const DataTableBooks = (props) => {
       )}
       {modal.active && (
         <Modal show={modal.active} onHide={() => setModal({ active: false })}>
-          {modal.name === "Create Book" && (
+
+          
+
+          {modal.name === "Create Book" ? 
             <CreateBook
               modal={modal}
               setModal={setModal}
               createBook={createBook}
-            />
-          )}
+            /> 
+            
+          : 
+          <UpdateBook modal={modal} setModal={setModal} id={id} book={book} setBook={setBook} updateBook={updateBook}/>}
         </Modal>
       )}
     </>

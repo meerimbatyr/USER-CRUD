@@ -1,33 +1,33 @@
 import { Button, Form, Modal } from "react-bootstrap";
 import { useState } from "react";
 
-const CreateBook = ({ modal, setModal, createBook }) => {
-  const [validated, setValidated] = useState(false);
-  const initialData = {
-    id: null,
-    title: "",
-    author: "",
-    genre: "",
-    cover: "",
-    description: "",
-    isbn: "",
-    ediiton: "",
-  };
-  const [book, setBook] = useState(initialData);
+const UpdateBook = ({ modal, setModal, id, book, setBook, updateBook }) => {
+
+  // const initialData = {
+  //   id: book.id,
+  //   title: book.title,
+  //   author: book.author,
+  //   genre: book.genre,
+  //   cover: book.cover,
+  //   description: book.description,
+  //   isbn: book.isbn,
+  //   edititon: book.edition,
+  // };
+  
+  // const [book, setBook] = useState(initialData);
+
+
+
+
   const onInputChange = (e) => {
     const { name, value } = e.target;
     setBook({ ...book, [name]: value });
   };
 
-  const onSubmit = () => {
-    if (
-      !book.title ||
-      book.isbn.length > 8 ||
-      !book.edition ||
-      !book.description
-    )
-      return;
-    createBook(book);
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if (!book.title || !book.isbn) return;
+    updateBook(id, book)
   };
   return (
     <>
@@ -36,10 +36,9 @@ const CreateBook = ({ modal, setModal, createBook }) => {
       </Modal.Header>
       <Modal.Body>
         <Form>
-          <Form.Group className="mb-3" controlId="validationCustom01">
+          <Form.Group className="mb-3">
             <Form.Label>Title</Form.Label>
             <Form.Control
-              required
               type="text"
               placeholder="Title"
               name="title"
@@ -51,7 +50,6 @@ const CreateBook = ({ modal, setModal, createBook }) => {
           <Form.Group className="mb-3">
             <Form.Label>Author</Form.Label>
             <Form.Control
-              required
               type="text"
               placeholder="Author"
               name="author"
@@ -85,7 +83,6 @@ const CreateBook = ({ modal, setModal, createBook }) => {
           <Form.Group className="mb-3">
             <Form.Label>Description</Form.Label>
             <Form.Control
-              required
               type="text"
               placeholder="Description"
               name="description"
@@ -96,7 +93,6 @@ const CreateBook = ({ modal, setModal, createBook }) => {
           <Form.Group className="mb-3">
             <Form.Label>Edition</Form.Label>
             <Form.Control
-              required
               type="number"
               placeholder="Edition"
               name="edition"
@@ -107,7 +103,6 @@ const CreateBook = ({ modal, setModal, createBook }) => {
           <Form.Group className="mb-3">
             <Form.Label>ISBN</Form.Label>
             <Form.Control
-              required
               type="number"
               placeholder="ISBN"
               name="isbn"
@@ -128,4 +123,4 @@ const CreateBook = ({ modal, setModal, createBook }) => {
     </>
   );
 };
-export default CreateBook;
+export default UpdateBook;
