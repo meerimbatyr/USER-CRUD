@@ -4,12 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import "./rating.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Loader from "../../Loader";
 
-const Rating = ( {book, fetchReviews} ) => {
+const Rating = ( {book, loading, setLoading, setReviews, reviews, setReviewSent} ) => {
   const [rating, setRating] = useState(null);
   const [hovered, setHovered] = useState(null);
   const [dropDown, setDropDown] = useState(false);
-  const [loading, setLoading] = useState(false)
   const [text, setText] = useState('');
   const [review, setReview] = useState({})
   const ref = useRef()
@@ -30,11 +30,15 @@ const Rating = ( {book, fetchReviews} ) => {
     // let newRating = ref.current.value
     setReview({text: newText, rating: rating})
     postReview(review);
+    setText("")
+    setRating(null)
+    setReviewSent(true)
     
   };
 
+
   useEffect(() => {
-    console.log(text, rating)
+    setReview({text:text, rating:rating})
 
   },[text, rating])
 
@@ -48,7 +52,7 @@ const postReview = async (obj) => {
       obj
     );
     console.log(res);
-    fetchReviews()
+    setReviews([...reviews, obj])
   } catch (err) {
     console.log("Something went wrong with posting review", err.message);
   } finally {
@@ -58,6 +62,9 @@ const postReview = async (obj) => {
   }
 
 }
+
+
+
 
 
 
