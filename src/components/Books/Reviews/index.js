@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./review.css";
 import { FaStar } from "react-icons/fa";
 import Loader from "../../Loader";
+import { nanoid } from "nanoid";
 
 
 
@@ -19,7 +20,7 @@ const Review = ({ el, deleteReview, loading, setLoading }) => {
 
   return (
     <>
-<section className="review">
+<section className="review" key={el.id} >
         <div className="review-info">
           <div className="review-image">
             <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Translate_logo.max-500x500.png" alt={""} />
@@ -29,7 +30,7 @@ const Review = ({ el, deleteReview, loading, setLoading }) => {
            
            
             <p>
-              <strong>Rating:</strong> {helperFn(el.rating).map(el => <FaStar color={"darkorange"}/>) }
+              <strong>Rating:</strong> {helperFn(el.rating).map(el => <FaStar color={"darkorange"} />) }
             </p>
             <p>
               <strong>Review:</strong> {el.text}
