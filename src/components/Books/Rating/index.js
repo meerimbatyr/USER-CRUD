@@ -5,6 +5,7 @@ import "./rating.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Loader from "../../Loader";
+import { nanoid } from "nanoid";
 
 const Rating = ( {book, loading, setLoading, setReviews, reviews, setReviewSent} ) => {
   const [rating, setRating] = useState(null);
@@ -78,14 +79,17 @@ const postReview = async (obj) => {
 {[...Array(5)].map((star, index) => {
         const ratingValue = index + 1;
         return (
-          <label>
+           
+          <label key={nanoid()}>
             <input
               type="radio"
               name="rating"
               value={ratingValue}
               onClick={() => setRating(ratingValue)}
+              key={nanoid()}
             />
             <FaStar
+            key={nanoid()}
               size={25}
               color={
                 ratingValue <= (hovered || rating) ? "darkorange" : "lightgrey"
@@ -97,6 +101,7 @@ const postReview = async (obj) => {
               onMouseOut={hideDropDown}
             />
           </label>
+          
         );
       })}
          
