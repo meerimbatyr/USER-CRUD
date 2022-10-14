@@ -1,10 +1,10 @@
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+
 import { useContext } from "react";
 import { GlobalContext } from "../../context/GlobalState";
-import Search from "../Search";
+import { Link } from "react-router-dom";
 
 function Header() {
   const { isSubmitted, setIsSubmitted } = useContext(GlobalContext);
@@ -19,9 +19,11 @@ function Header() {
                 <p>
                   Signed in as: <strong>Admin</strong>
                 </p>{" "}
-                <Button variant="light" onClick={() => setIsSubmitted(false)}>
-                  Logout
-                </Button>
+                <Link to="/">
+                  <Button variant="light" onClick={() => setIsSubmitted(false)}>
+                    Logout
+                  </Button>
+                </Link>
               </Navbar.Text>
             </>
           )}

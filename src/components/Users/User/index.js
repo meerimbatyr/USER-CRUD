@@ -123,7 +123,9 @@ const User = () => {
   return (
     <Container>
       {loading ? (
-        <Loader />
+        <div className="mx-auto fs-3" style={{ width: "80px" }}>
+          <Loader />
+        </div>
       ) : (
         <>
           <Row className="mb-3">

@@ -1,5 +1,4 @@
-
-import { Button, Table, Modal } from "react-bootstrap";
+import { Button, Table, Modal, Container, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Loader from "../../Loader";
@@ -11,16 +10,15 @@ const DataTableBooks = (props) => {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState({ name: "", active: false });
-  const [book, setBook] = useState({})
+  const [book, setBook] = useState({});
 
   const { id } = useParams();
   const navigate = useNavigate();
 
- const handleBook = (book) => {
-  setModal({ name: "Update Book", active: true })
-  setBook(book)
-
- }
+  const handleBook = (book) => {
+    setModal({ name: "Update Book", active: true });
+    setBook(book);
+  };
 
   const fetchbooks = async () => {
     setLoading(true);
@@ -96,100 +94,121 @@ const DataTableBooks = (props) => {
     }
   };
 
-  
-
-
   return (
     <>
-      <Button
-        variant="primary"
-        className="btn my-3 float-start mx-5"
-        onClick={() => navigate(-1)}
-      >
-        Go Back
-      </Button>
-      <Button
-        variant="primary"
-        className="btn my-3 float-start mx-5"
-        onClick={() => setModal({ name: "Create Book", active: true })}
-      >
-        Create book
-      </Button>
       {loading ? (
-        <Loader />
+        <div className="mx-auto fs-3" style={{ width: "80px" }}>
+          <Loader />
+        </div>
       ) : (
-        <Table striped bordered hover>
-          <thead className="bg-dark text-light">
-            <tr>
-              <th>Cover</th>
-              <th>Title</th>
-              <th>Author</th>
-              <th>Genre</th>
-              <th>Description</th>
-              <th>ISBN</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
+        <Container style={{ width: "80vw", margin: "auto" }}>
+          <Row>
+            <Col>
+              <Button
+                variant="secondary"
+                className="btn my-3 float-start mx-5"
+                onClick={() => navigate(-1)}
+              >
+                Go Back
+              </Button>
+            </Col>
+            <Col>
+              <Button
+                variant="success"
+                className="btn my-3 float-start mx-5 float-end"
+                onClick={() => setModal({ name: "Create Book", active: true })}
+              >
+                Create book
+              </Button>
+            </Col>
+          </Row>
 
-          <tbody>
-            {books.length ? (
-              books.map((book) => (
-                <tr key={book.id}>
-                  <td className="field-avatar">
-                    <img
-                      style={{ width: "100px", height: "auto" }}
-                      src={book.cover}
-                      alt={book.title}
-                    />
-                  </td>
-                  <td>
-                    <Link to={`/books/details/${book.id}`} state={book}>
-                      {book.title}
-                    </Link>
-                  </td>
-                  <td>{book.author}</td>
-                  <td>{book.genre}</td>
-                  <td>{book.description}</td>
-                  <td>{book.isbn}</td>
-                  <td>
-                    <Button variant="primary"
-                      onClick={() => handleBook(book) }>
-                      Update
-                      </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => deleteBook(book.id)}
-                    >
-                      Delete
-                    </Button>
-                  </td>
-                </tr>
-              ))
-            ) : (
+          <Table striped bordered hover className="text-center">
+            <thead className="bg-dark text-light">
               <tr>
-                <td colSpan="6">No Record Found!</td>
+                <th>Cover</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Genre</th>
+                <th>ISBN</th>
+                <th>Details</th>
+                <th>Actions</th>
               </tr>
-            )}
-          </tbody>
-        </Table>
-      )}
-      {modal.active && (
-        <Modal show={modal.active} onHide={() => setModal({ active: false })}>
+            </thead>
 
-          
+            <tbody>
+              {books.length ? (
+                books.map((book) => (
+                  <tr key={book.id}>
+                    <td className="field-avatar">
+                      <img
+                        style={{ width: "100px", height: "auto" }}
+                        src={book.cover}
+                        alt={book.title}
+                      />
+                    </td>
+                    <td>{book.title}</td>
+                    <td>{book.author}</td>
+                    <td>{book.genre}</td>
 
-          {modal.name === "Create Book" ? 
-            <CreateBook
-              modal={modal}
-              setModal={setModal}
-              createBook={createBook}
-            /> 
-            
-          : 
-          <UpdateBook modal={modal} setModal={setModal} id={id} book={book} setBook={setBook} updateBook={updateBook}/>}
-        </Modal>
+                    <td>{book.isbn}</td>
+                    <td>
+                      {" "}
+                      <Link to={`/books/details/${book.id}`} state={book}>
+                        View details
+                      </Link>
+                    </td>
+                    <td>
+                      <Button
+                        variant="warning"
+                        onClick={() => handleBook(book)}
+                      >
+                        Update
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => deleteBook(book.id)}
+                      >
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6">No Record Found!</td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+
+          {modal.active && (
+            <Modal
+              show={modal.active}
+              onHide={() => setModal({ active: false })}
+            >
+              {modal.name === "Create Book" ? (
+                <CreateBook
+                  modal={modal}
+                  setModal={setModal}
+                  createBook={createBook}
+                />
+              ) : (
+                <UpdateBook
+                  modal={modal}
+                  setModal={setModal}
+                  id={id}
+                  book={book}
+                  setBook={setBook}
+                  updateBook={updateBook}
+                />
+              )}
+            </Modal>
+          )}
+        </Container>
       )}
     </>
   );
 };
+
 export default DataTableBooks;
