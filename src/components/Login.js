@@ -9,6 +9,7 @@ import Loader from "./Loader";
 const Login = () => {
   const { users, loading, setLoading, isSubmitted, setIsSubmitted } =
     useContext(GlobalContext);
+
   const [showHidePassword, setShowHidePassword] = useState(false);
 
   const emails = users.map((user) => user.email);
@@ -49,7 +50,10 @@ const Login = () => {
 
   if (loading) {
     return (
-      <div style={{ width: "300px", margin: "auto" }}>
+      <div
+        className="container col-md-6  col-lg-4 mx-auto my-5 py-5"
+        style={{ width: "80px" }}
+      >
         <Loader />
       </div>
     );
