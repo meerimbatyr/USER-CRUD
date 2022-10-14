@@ -20,15 +20,7 @@ export default function App() {
       <Header />
       <Routes>
 
-        <Route path="/" element={<User />} />
-        <Route path="/datatablebooks/:id" element={<DataTableBooks />} />
-        <Route path="/datatablebooks/details/:id" element={<Book />} />
-        <Route
-          path="/datatablebooks/details/reviews/:id"
-          element={<Reviews />}
-        />
-        <Route path="*" element={<Reviews />} />
-
+        
         <Route path="/" element={<Home />} />
         <Route path="/books/:id" element={<Books />} />
         <Route path="/books/details/:id" element={<BookDetails />} />
