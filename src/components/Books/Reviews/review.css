@@ -1,12 +1,13 @@
 .review {
-    border: 1px dashed rgba(0, 0, 0, 0.403);
+    /* border: 1px  rgba(0, 0, 0, 0.403); */
     border-radius: 0.5rem;
     width: 50%;
-    padding: 2rem;
+    padding: 1rem;
     margin: 1rem auto;
-    box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.7);
-    -webkit-box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.7);
-    -moz-box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.7);
+    box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.152);
+    -webkit-box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.107);
+    -moz-box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.159);
+    position: relative;
   }
   
   .review h2 {
@@ -23,11 +24,12 @@
   
   .review img {
     width: 3.5rem;
-    border: 2px solid black;
+    padding: 2px;
+    border: 1px solid black;
     border-radius: 50px;
-    box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.7);
-    -webkit-box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.7);
-    -moz-box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.7);
+    box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.278);
+    -webkit-box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.301);
+    -moz-box-shadow: 8px 8px 12px 2px rgba(0, 0, 0, 0.165);
   }
   
   .review p {
@@ -65,4 +67,29 @@
     margin-top: 10px;
   }
 
+
+  .deleteBtn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: crimson;
+    border: none;
+    color: white;
+    font-size: 25px;
+    line-height: 20px;
+    padding: 1px 5px;
+    padding-bottom: 4px;
+    border-radius: 3px;
+    position: absolute;
+    top:1%;
+    right: -4%;
+    transform: translate(-100%, -50%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
   
+
+  .review:hover .deleteBtn{
+    opacity: 1;
+  }
