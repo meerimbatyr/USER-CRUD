@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import CreateUser from "../CreateUser";
 import DataTable from "../DataTable";
@@ -12,22 +12,19 @@ import InputLoadingSpiner from "../../Input-loader";
 import { GlobalContext } from "../../../context/GlobalState";
 
 const User = () => {
+  const { users, setUsers, loading, setLoading, fetchUsers, isSubmitted } =
+    useContext(GlobalContext);
+
+  console.log(isSubmitted);
+
   // Local State
-  const [users, setUsers] = useState([]);
+
   const [user, setUser] = useState("");
   const [value, setValue] = useState("");
-  const [loading, setLoading] = useState(false);
   const [inputLoading, setInputLoading] = useState(false);
   const [modal, setModal] = useState({ name: "", active: false });
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredUsers, setFilteredUsers] = useState([]);
-
-  // const modalValue = { modal, setModal };
-
-  useEffect(() => {
-    fetchUsers();
-    setUser(JSON.parse(localStorage.getItem("user")));
-  }, []);
 
   // Constants
   const itemPerPage = 10;
@@ -38,23 +35,6 @@ const User = () => {
   const currentUsers = filteredUsers.length
     ? filteredUsers.slice(indexOfFirst, indexOfLasPost)
     : users.slice(indexOfFirst, indexOfLasPost);
-
-  // Fetching Users API
-  const fetchUsers = async () => {
-    setLoading(true);
-    try {
-      const res = await axios.get(
-        "https://6300279d34344b643105731e.mockapi.io/api/v1/users"
-      );
-      setUsers(res.data);
-    } catch (err) {
-      console.error("Error fetching users", err);
-    } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 500);
-    }
-  };
 
   const createUser = async (user) => {
     setModal({ active: false });
@@ -71,6 +51,9 @@ const User = () => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("user")));
+  }, []);
 
   const deleteUser = async (id) => {
     setModal({ active: false });
@@ -138,70 +121,68 @@ const User = () => {
   };
 
   return (
-    <GlobalContext.Provider value={{ modal, setModal }}>
-      <Container>
-        {loading ? (
-          <Loader />
-        ) : (
-          <>
-            <Row className="mb-3">
-              <Col className="col-sm-9 col-md-6 col-lg-4 ">
-                <Search setValue={setValue} search={search} />
-                {inputLoading && <InputLoadingSpiner />}
-              </Col>
-            </Row>
-            <Row className="mb-3">
-              <Col className="col-md-6 text-start">
-                <Pagination1
-                  currentPage={currentPage}
-                  setCurrentPage={setCurrentPage}
-                  maxPages={maxPages}
-                  pagination={pagination}
-                  totalUsers={totalUsers}
-                  itemPerPage={itemPerPage}
-                />
-              </Col>
-              <Col className="text-end">
-                <Button
-                  onClick={() =>
-                    setModal({ name: "Create User", active: true })
-                  }
-                >
-                  Create New User
-                </Button>
-              </Col>
-            </Row>
-            <DataTable
-              users={currentUsers}
-              filteredUsers={filteredUsers}
-              deleteUser={deleteUser}
+    <Container>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <Row className="mb-3">
+            <Col className="col-sm-9 col-md-6 col-lg-4 ">
+              <Search setValue={setValue} search={search} />
+              {inputLoading && <InputLoadingSpiner />}
+            </Col>
+          </Row>
+          <Row className="mb-3">
+            <Col className="col-md-6 text-start">
+              <Pagination1
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                maxPages={maxPages}
+                pagination={pagination}
+                totalUsers={totalUsers}
+                itemPerPage={itemPerPage}
+              />
+            </Col>
+
+            <Col className="text-end">
+              <Button
+                variant="success"
+                onClick={() => setModal({ name: "Create User", active: true })}
+              >
+                Create New User
+              </Button>
+            </Col>
+          </Row>
+          <DataTable
+            users={currentUsers}
+            filteredUsers={filteredUsers}
+            deleteUser={deleteUser}
+            setModal={setModal}
+            setUpdateUser={setUpdateUser}
+            value={value}
+          />
+        </>
+      )}
+      {modal.active && (
+        <Modal show={modal.active} onHide={() => setModal({ active: false })}>
+          {modal.name === "Create User" ? (
+            <CreateUser
+              modal={modal}
+              createUser={createUser}
               setModal={setModal}
-              setUpdateUser={setUpdateUser}
-              value={value}
             />
-          </>
-        )}
-        {modal.active && (
-          <Modal show={modal.active} onHide={() => setModal({ active: false })}>
-            {modal.name === "Create User" ? (
-              <CreateUser
-                modal={modal}
-                createUser={createUser}
-                setModal={setModal}
-              />
-            ) : (
-              <UpdateUser
-                modal={modal}
-                updateUser={updateUser}
-                setModal={setModal}
-                user={user}
-                setUser={setUser}
-              />
-            )}
-          </Modal>
-        )}
-      </Container>
-    </GlobalContext.Provider>
+          ) : (
+            <UpdateUser
+              modal={modal}
+              updateUser={updateUser}
+              setModal={setModal}
+              user={user}
+              setUser={setUser}
+            />
+          )}
+        </Modal>
+      )}
+    </Container>
   );
 };
 export default User;

@@ -1,7 +1,13 @@
 import { Pagination } from "react-bootstrap";
-import { useState } from "react";
 
-function Pagination1({ itemPerPage, totalUsers, maxPages, currentPage, setCurrentPage, pagination }) {
+function Pagination1({
+  itemPerPage,
+  totalUsers,
+  maxPages,
+  currentPage,
+  setCurrentPage,
+  pagination,
+}) {
   const maxPageNumberVisible = 5;
 
   const nextPage = () => {
@@ -15,8 +21,6 @@ function Pagination1({ itemPerPage, totalUsers, maxPages, currentPage, setCurren
     }
   };
 
-
-  
   const arrayOfPages = [];
   for (let i = 1; i <= Math.ceil(totalUsers / itemPerPage); i++) {
     arrayOfPages.push(
