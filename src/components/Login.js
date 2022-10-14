@@ -5,7 +5,6 @@ import * as Yup from "yup";
 import Home from "../pages/Home";
 import { GlobalContext } from "../context/GlobalState";
 import Loader from "./Loader";
-import { Link } from "react-router-dom";
 
 const Login = () => {
   const { users, loading, setLoading, isSubmitted, setIsSubmitted } =
