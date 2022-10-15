@@ -76,7 +76,7 @@ const Login = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 defaultValue={formik.values.email}
-                isInvalid={formik.touched.email && !!formik.errors.email}
+                isInvalid={!!formik.errors.email}
                 isValid={!formik.errors.email}
               />
               {formik.touched.email ? (
