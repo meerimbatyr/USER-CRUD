@@ -1,19 +1,28 @@
 ## User Crud Application
 
+- used mockapi.io to create API for users,books and reviews
+
 - Login page to authenticate the admin
+  - Only admin can login now
+  ## Challenges * wokring with array of objects to validate users
 - Users page
   - Search by name,email
-  - pagination
-  - ability to create, update and delete users
+  - Pagination
+  - Ability to create, update and delete users
 - Books page from each user
   - List of books for each user
-  - ability to create,update,delete
-  - link to book details
+  - Ability to create,update,delete
+  - Link to book details
 - Book details page
   - Ratings
   - Ability to leave a review and delete review
   
 -Ability to logout
+
+## Areas to improve 
+- work with array of objects to validate users
+- users except admin cannot create, update,delete data
+- on review page shoould be displayed the current user name 
 
 
 https://zany-roof.surge.sh/
