@@ -1,6 +1,12 @@
 import { Form } from "react-bootstrap";
+import debounce from "lodash.debounce";
+import { useCallback } from "react";
 
 const Search = ({ search }) => {
+  const handleSearch = (e) => {
+    search(e.target.value);
+  };
+  const debouncedChangeHandler = useCallback(debounce(handleSearch, 1000), []);
   return (
     <Form className="my-3">
       <Form.Group
@@ -16,7 +22,7 @@ const Search = ({ search }) => {
           name="user"
           type="text"
           placeholder="Enter first name, last name or email..."
-          onChange={(e) => search(e.target.value)}
+          onChange={debouncedChangeHandler}
         />
       </Form.Group>
     </Form>
