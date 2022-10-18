@@ -7,7 +7,9 @@ import { GlobalContext } from "../../context/GlobalState";
 import { Link } from "react-router-dom";
 
 function Header() {
-  const { isSubmitted, setIsSubmitted } = useContext(GlobalContext);
+  const { isSubmitted, setIsSubmitted, loggedinUser } =
+    useContext(GlobalContext);
+
   return (
     <>
       <Navbar bg="dark" variant="dark" className="mb-3">
@@ -17,7 +19,10 @@ function Header() {
             <>
               <Navbar.Text>
                 <p>
-                  Signed in as: <strong>Admin</strong>
+                  Signed in as:{" "}
+                  <strong>
+                    {loggedinUser.firstname} {loggedinUser.lastname}
+                  </strong>
                 </p>{" "}
                 <Link to="/">
                   <Button variant="light" onClick={() => setIsSubmitted(false)}>

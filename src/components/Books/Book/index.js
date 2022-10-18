@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Book.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import Rating from "../Rating";
 import Review from "../Reviews";
@@ -8,8 +8,12 @@ import axios from "axios";
 import Loader from "../../Loader";
 import ThankYouMsg from "../ThankYouMsg";
 
+import { GlobalContext } from "../../../context/GlobalState";
+import Login from "../../Login";
+
 function Book(props) {
-  const [loading, setLoading] = useState(false);
+  const { isSubmitted } = useContext(GlobalContext);
+  const [loading, setLoading] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [isReviewSent, setReviewSent] = useState(false);
   const location = useLocation();
@@ -48,8 +52,8 @@ function Book(props) {
         (review) => review.id !== reviewID
       );
       setReviews(filteredReviews);
-    } catch {
-      console.log("some error with deleting a book");
+    } catch (err) {
+      console.log("some error with deleting a book", err);
     } finally {
       setTimeout(() => {
         setLoading(false);

@@ -1,12 +1,15 @@
+import { useState, useEffect, useContext } from "react";
 import { Button, Table, Modal, Container, Row, Col } from "react-bootstrap";
-import { useState, useEffect } from "react";
+
 import axios from "axios";
 import Loader from "../../Loader";
 import UpdateBook from "../UpdateBook";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import CreateBook from "../CreateBook";
+import { GlobalContext } from "../../../context/GlobalState";
 
 const DataTableBooks = (props) => {
+  const { loggedinUser } = useContext(GlobalContext);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState({ name: "", active: false });
@@ -14,6 +17,9 @@ const DataTableBooks = (props) => {
 
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location;
+  console.log(state);
 
   const handleBook = (book) => {
     setModal({ name: "Update Book", active: true });
@@ -96,71 +102,82 @@ const DataTableBooks = (props) => {
 
   return (
     <>
+    <Container style={{ width: "80vw", margin: "auto" }}>
+          <Row>
+            <Col>
+             <Button
+        variant="primary"
+        className="btn my-3 float-start mx-5"
+        onClick={() => navigate(-1)}
+      >
+        Go Back
+      </Button>
+
+      {((loggedinUser.firstname === "Meerim" &&
+        loggedinUser.lastname === "Batyrkanova") ||
+        loggedinUser.id === book.id) && (
+        <Button
+          variant="primary"
+          className="btn my-3 float-start mx-5"
+          onClick={() => setModal({ name: "Create Book", active: true })}
+        >
+          Create book
+        </Button>
+              
+            </Col>
+          </Row>
+     
+      
+      
       {loading ? (
         <div className="mx-auto fs-3" style={{ width: "80px" }}>
           <Loader />
         </div>
       ) : (
-        <Container style={{ width: "80vw", margin: "auto" }}>
-          <Row>
-            <Col>
-              <Button
-                variant="secondary"
-                className="btn my-3 float-start mx-5"
-                onClick={() => navigate(-1)}
-              >
-                Go Back
-              </Button>
-            </Col>
-            <Col>
-              <Button
-                variant="success"
-                className="btn my-3 float-start mx-5 float-end"
-                onClick={() => setModal({ name: "Create Book", active: true })}
-              >
-                Create book
-              </Button>
-            </Col>
-          </Row>
 
-          <Table striped bordered hover className="text-center">
-            <thead className="bg-dark text-light">
-              <tr>
-                <th>Cover</th>
-                <th>Title</th>
-                <th>Author</th>
-                <th>Genre</th>
-                <th>ISBN</th>
-                <th>Details</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
+        <Table striped bordered hover>
+          <thead className="bg-dark text-light">
+            <tr>
+              <th>Cover</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Genre</th>
+              <th>ISBN</th>
+              <th>Details</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
 
-            <tbody>
-              {books.length ? (
-                books.map((book) => (
-                  <tr key={book.id}>
-                    <td className="field-avatar">
-                      <img
-                        style={{ width: "100px", height: "auto" }}
-                        src={book.cover}
-                        alt={book.title}
-                      />
-                    </td>
-                    <td>{book.title}</td>
-                    <td>{book.author}</td>
-                    <td>{book.genre}</td>
+          <tbody>
+            {books.length ? (
+              books.map((book) => (
+                <tr key={book.id}>
+                  <td className="field-avatar">
+                    <img
+                      style={{ width: "100px", height: "auto" }}
+                      src={book.cover}
+                      alt={book.title}
+                    />
+                  </td>
+                  <td>{book.title}</td>
+                  <td>{book.author}</td>
+                  <td>{book.genre}</td>
 
-                    <td>{book.isbn}</td>
-                    <td>
-                      {" "}
-                      <Link to={`/books/details/${book.id}`} state={book}>
-                        View details
-                      </Link>
-                    </td>
+                  <td>{book.isbn}</td>
+                  <td>
+                    {" "}
+                    <Link to={`/books/details/${book.id}`} state={book}>
+                      View details
+                    </Link>
+                  </td>
+
+                  {((loggedinUser.firstname === "Meerim" &&
+                    loggedinUser.lastname === "Batyrkanova") ||
+                    (loggedinUser.firtsname === state.firstname &&
+                      loggedinUser.lastsname === state.lastname)) && (
                     <td>
                       <Button
-                        variant="warning"
+                        variant="primary"
                         onClick={() => handleBook(book)}
                       >
                         Update
@@ -172,9 +189,10 @@ const DataTableBooks = (props) => {
                         Delete
                       </Button>
                     </td>
-                  </tr>
-                ))
-              ) : (
+                  )}
+                </tr>
+              ))
+            ) : (
                 <tr>
                   <td colSpan="6">No Record Found!</td>
                 </tr>
@@ -206,6 +224,7 @@ const DataTableBooks = (props) => {
             </Modal>
           )}
         </Container>
+
       )}
     </>
   );

@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { GlobalContext } from "../../../context/GlobalState";
+import Login from "../../Login";
 import "./books.css";
 
 const DataTable = ({
@@ -12,7 +13,8 @@ const DataTable = ({
   setUpdateUser,
   filteredUsers,
 }) => {
-  const { isSubmitted, setIsSubmitted } = useContext(GlobalContext);
+  const { isSubmitted, setIsSubmitted, loggedinUser } =
+    useContext(GlobalContext);
   const handleClick = (user) => {
     setModal({ name: "Update User", active: true });
     setUpdateUser(user);
@@ -48,19 +50,27 @@ const DataTable = ({
             </td>
             <td>{user.firstname}</td>
             <td>{user.lastname}</td>
-            <td>{user.email}</td>
+            <td className="email">{user.email}</td>
             <td>{user.birthdate.split("T")[0]}</td>
             <td>
-              <Link to={`/books/${user.id}`}>View books</Link>
+              <Link to={`/books/${user.id}`} state={user.id}>
+                View books
+              </Link>
             </td>
-            <td>
-              <Button onClick={() => handleClick(user)} variant="warning">
-                Update
-              </Button>
-              <Button onClick={() => deleteUser(user.id)} variant="danger">
-                Delete
-              </Button>
-            </td>
+
+            {((loggedinUser.firstname === "Meerim" &&
+              loggedinUser.lastname === "Batyrkanova") ||
+              (loggedinUser.firstname === user.firstname &&
+                loggedinUser.lastname === user.lastname)) && (
+              <td>
+                <Button onClick={() => handleClick(user)} variant="warning">
+                  Update
+                </Button>
+                <Button onClick={() => deleteUser(user.id)} variant="danger">
+                  Delete
+                </Button>
+              </td>
+            )}
           </tr>
         ))}
       </tbody>

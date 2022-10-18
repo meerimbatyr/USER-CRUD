@@ -7,6 +7,7 @@ const CreateUser = ({ modal, createUser, setModal }) => {
     firstname: "",
     lastname: "",
     email: "",
+    password: "",
     avatar: "",
     birthdate: "",
   };
@@ -58,6 +59,16 @@ const CreateUser = ({ modal, createUser, setModal }) => {
               name="email"
               onChange={onInputChange}
               defaultValue={user.email}
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              placeholder="Password"
+              name="password"
+              onChange={onInputChange}
+              defaultValue={user.password}
             />
           </Form.Group>
 

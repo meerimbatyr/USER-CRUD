@@ -12,8 +12,15 @@ import InputLoadingSpiner from "../../Input-loader";
 import { GlobalContext } from "../../../context/GlobalState";
 
 const User = () => {
-  const { users, setUsers, loading, setLoading, fetchUsers, isSubmitted } =
-    useContext(GlobalContext);
+  const {
+    loggedinUser,
+    users,
+    setUsers,
+    loading,
+    setLoading,
+    fetchUsers,
+    isSubmitted,
+  } = useContext(GlobalContext);
 
   console.log(isSubmitted);
 
@@ -146,14 +153,19 @@ const User = () => {
               />
             </Col>
 
-            <Col className="text-end">
-              <Button
-                variant="success"
-                onClick={() => setModal({ name: "Create User", active: true })}
-              >
-                Create New User
-              </Button>
-            </Col>
+            {(loggedinUser.firstname === "Meerim") &
+              (loggedinUser.lastname === "Batyrkanova") && (
+              <Col className="text-end">
+                <Button
+                  variant="success"
+                  onClick={() =>
+                    setModal({ name: "Create User", active: true })
+                  }
+                >
+                  Create New User
+                </Button>
+              </Col>
+            )}
           </Row>
           <DataTable
             users={currentUsers}
