@@ -102,7 +102,7 @@ const DataTableBooks = (props) => {
   return (
     <>
       <Button
-        variant="primary"
+        variant="secondary"
         className="btn my-3 float-start mx-5"
         onClick={() => navigate(-1)}
       >
@@ -114,7 +114,7 @@ const DataTableBooks = (props) => {
         (loggedinUser.firstname === state.firstname &&
           loggedinUser.lastname === state.lastname)) && (
         <Button
-          variant="primary"
+          variant="success"
           className="btn my-3 float-start mx-5"
           onClick={() => setModal({ name: "Create Book", active: true })}
         >
@@ -123,7 +123,9 @@ const DataTableBooks = (props) => {
       )}
 
       {loading ? (
-        <Loader />
+        <div className="mx-auto fs-3 d-flex" style={{ width: "90vw" }}>
+          <Loader />
+        </div>
       ) : (
         <Table
           striped
@@ -171,7 +173,7 @@ const DataTableBooks = (props) => {
                     loggedinUser.id === book.userId) && (
                     <td>
                       <Button
-                        variant="primary"
+                        variant="warning"
                         onClick={() => handleBook(book)}
                       >
                         Update
