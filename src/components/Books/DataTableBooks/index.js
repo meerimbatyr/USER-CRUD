@@ -1,6 +1,5 @@
+import { Button, Table, Modal } from "react-bootstrap";
 import { useState, useEffect, useContext } from "react";
-import { Button, Table, Modal, Container, Row, Col } from "react-bootstrap";
-
 import axios from "axios";
 import Loader from "../../Loader";
 import UpdateBook from "../UpdateBook";
@@ -102,10 +101,7 @@ const DataTableBooks = (props) => {
 
   return (
     <>
-    <Container style={{ width: "80vw", margin: "auto" }}>
-          <Row>
-            <Col>
-             <Button
+      <Button
         variant="primary"
         className="btn my-3 float-start mx-5"
         onClick={() => navigate(-1)}
@@ -115,7 +111,8 @@ const DataTableBooks = (props) => {
 
       {((loggedinUser.firstname === "Meerim" &&
         loggedinUser.lastname === "Batyrkanova") ||
-        loggedinUser.id === book.id) && (
+        (loggedinUser.firstname === state.firstname &&
+          loggedinUser.lastname === state.lastname)) && (
         <Button
           variant="primary"
           className="btn my-3 float-start mx-5"
@@ -123,18 +120,11 @@ const DataTableBooks = (props) => {
         >
           Create book
         </Button>
-              
-            </Col>
-          </Row>
-     
-      
-      
-      {loading ? (
-        <div className="mx-auto fs-3" style={{ width: "80px" }}>
-          <Loader />
-        </div>
-      ) : (
+      )}
 
+      {loading ? (
+        <Loader />
+      ) : (
         <Table striped bordered hover>
           <thead className="bg-dark text-light">
             <tr>
@@ -173,8 +163,7 @@ const DataTableBooks = (props) => {
 
                   {((loggedinUser.firstname === "Meerim" &&
                     loggedinUser.lastname === "Batyrkanova") ||
-                    (loggedinUser.firtsname === state.firstname &&
-                      loggedinUser.lastsname === state.lastname)) && (
+                    loggedinUser.id === book.userId) && (
                     <td>
                       <Button
                         variant="primary"
@@ -193,41 +182,34 @@ const DataTableBooks = (props) => {
                 </tr>
               ))
             ) : (
-                <tr>
-                  <td colSpan="6">No Record Found!</td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
-
-          {modal.active && (
-            <Modal
-              show={modal.active}
-              onHide={() => setModal({ active: false })}
-            >
-              {modal.name === "Create Book" ? (
-                <CreateBook
-                  modal={modal}
-                  setModal={setModal}
-                  createBook={createBook}
-                />
-              ) : (
-                <UpdateBook
-                  modal={modal}
-                  setModal={setModal}
-                  id={id}
-                  book={book}
-                  setBook={setBook}
-                  updateBook={updateBook}
-                />
-              )}
-            </Modal>
+              <tr>
+                <td colSpan="6">No Record Found!</td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
+      )}
+      {modal.active && (
+        <Modal show={modal.active} onHide={() => setModal({ active: false })}>
+          {modal.name === "Create Book" ? (
+            <CreateBook
+              modal={modal}
+              setModal={setModal}
+              createBook={createBook}
+            />
+          ) : (
+            <UpdateBook
+              modal={modal}
+              setModal={setModal}
+              id={id}
+              book={book}
+              setBook={setBook}
+              updateBook={updateBook}
+            />
           )}
-        </Container>
-
+        </Modal>
       )}
     </>
   );
 };
-
 export default DataTableBooks;

@@ -53,7 +53,7 @@ const DataTable = ({
             <td className="email">{user.email}</td>
             <td>{user.birthdate.split("T")[0]}</td>
             <td>
-              <Link to={`/books/${user.id}`} state={user.id}>
+              <Link to={`/books/${user.id}`} state={user}>
                 View books
               </Link>
             </td>
