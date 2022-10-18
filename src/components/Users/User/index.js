@@ -130,7 +130,7 @@ const User = () => {
   return (
     <Container>
       {loading ? (
-        <div className="mx-auto fs-3" style={{ width: "80px" }}>
+        <div className="mx-auto fs-3" style={{ width: "90vw" }}>
           <Loader />
         </div>
       ) : (

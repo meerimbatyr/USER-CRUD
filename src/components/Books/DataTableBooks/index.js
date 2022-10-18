@@ -125,7 +125,12 @@ const DataTableBooks = (props) => {
       {loading ? (
         <Loader />
       ) : (
-        <Table striped bordered hover>
+        <Table
+          striped
+          bordered
+          hover
+          style={{ width: "90vw", margin: "auto", textAlign: "center" }}
+        >
           <thead className="bg-dark text-light">
             <tr>
               <th>Cover</th>

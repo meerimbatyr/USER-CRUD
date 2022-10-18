@@ -9,7 +9,6 @@ import { userContext } from "../context/GlobalState";
 import Loader from "./Loader";
 
 const Login = () => {
-
   const {
     loggedinUser,
     setLoggedinUser,
@@ -19,7 +18,6 @@ const Login = () => {
     isSubmitted,
     setIsSubmitted,
   } = useContext(GlobalContext);
-
 
   const [showHidePassword, setShowHidePassword] = useState(false);
 
@@ -127,9 +125,13 @@ const Login = () => {
                 onChange={(e) => setShowHidePassword(!showHidePassword)}
               />
             </Form.Group>
-            <Form.Text className="text-danger fs-5">
-              No matching user found
-            </Form.Text>
+
+            {!loggedinUser && (
+              <Form.Text className="text-danger fs-5">
+                No matching user found
+              </Form.Text>
+            )}
+
             <br />
             <Button variant="primary" type="submit" className="mt-3">
               Submit

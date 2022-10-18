@@ -25,7 +25,13 @@ const DataTable = ({
   }
 
   return (
-    <Table striped bordered hover className="text-center">
+    <Table
+      striped
+      bordered
+      hover
+      className="text-center"
+      style={{ width: "90vw", margin: "auto" }}
+    >
       <thead className="bg-dark text-light">
         <tr>
           <th>Avatar</th>
