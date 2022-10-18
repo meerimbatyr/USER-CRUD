@@ -1,5 +1,6 @@
-import { Button, Table, Modal } from "react-bootstrap";
 import { useState, useEffect, useContext } from "react";
+import { Button, Table, Modal, Container, Row, Col } from "react-bootstrap";
+
 import axios from "axios";
 import Loader from "../../Loader";
 import UpdateBook from "../UpdateBook";
@@ -101,7 +102,10 @@ const DataTableBooks = (props) => {
 
   return (
     <>
-      <Button
+    <Container style={{ width: "80vw", margin: "auto" }}>
+          <Row>
+            <Col>
+             <Button
         variant="primary"
         className="btn my-3 float-start mx-5"
         onClick={() => navigate(-1)}
@@ -119,11 +123,18 @@ const DataTableBooks = (props) => {
         >
           Create book
         </Button>
-      )}
-
+              
+            </Col>
+          </Row>
+     
+      
+      
       {loading ? (
-        <Loader />
+        <div className="mx-auto fs-3" style={{ width: "80px" }}>
+          <Loader />
+        </div>
       ) : (
+
         <Table striped bordered hover>
           <thead className="bg-dark text-light">
             <tr>
@@ -182,34 +193,41 @@ const DataTableBooks = (props) => {
                 </tr>
               ))
             ) : (
-              <tr>
-                <td colSpan="6">No Record Found!</td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
-      )}
-      {modal.active && (
-        <Modal show={modal.active} onHide={() => setModal({ active: false })}>
-          {modal.name === "Create Book" ? (
-            <CreateBook
-              modal={modal}
-              setModal={setModal}
-              createBook={createBook}
-            />
-          ) : (
-            <UpdateBook
-              modal={modal}
-              setModal={setModal}
-              id={id}
-              book={book}
-              setBook={setBook}
-              updateBook={updateBook}
-            />
+                <tr>
+                  <td colSpan="6">No Record Found!</td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+
+          {modal.active && (
+            <Modal
+              show={modal.active}
+              onHide={() => setModal({ active: false })}
+            >
+              {modal.name === "Create Book" ? (
+                <CreateBook
+                  modal={modal}
+                  setModal={setModal}
+                  createBook={createBook}
+                />
+              ) : (
+                <UpdateBook
+                  modal={modal}
+                  setModal={setModal}
+                  id={id}
+                  book={book}
+                  setBook={setBook}
+                  updateBook={updateBook}
+                />
+              )}
+            </Modal>
           )}
-        </Modal>
+        </Container>
+
       )}
     </>
   );
 };
+
 export default DataTableBooks;

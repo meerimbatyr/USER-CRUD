@@ -7,6 +7,7 @@ import Review from "../Reviews";
 import axios from "axios";
 import Loader from "../../Loader";
 import ThankYouMsg from "../ThankYouMsg";
+
 import { GlobalContext } from "../../../context/GlobalState";
 import Login from "../../Login";
 
@@ -60,6 +61,14 @@ function Book(props) {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="mx-auto fs-3" style={{ width: "80px" }}>
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <div>
       <section className="book">
@@ -94,8 +103,6 @@ function Book(props) {
             >
               Go Back
             </Button>
-
-            <Button variant="primary btn-lg">Update</Button>
           </div>
         </div>
       </section>
