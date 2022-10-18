@@ -3,23 +3,41 @@ import { Form, Button } from "react-bootstrap";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Home from "../pages/Home";
+import Header from "../components/Header";
 import { GlobalContext } from "../context/GlobalState";
+import { userContext } from "../context/GlobalState";
 import Loader from "./Loader";
 
 const Login = () => {
-  const { users, loading, setLoading, isSubmitted, setIsSubmitted } =
-    useContext(GlobalContext);
+  const {
+    loggedinUser,
+    setLoggedinUser,
+    users,
+    loading,
+    setLoading,
+    isSubmitted,
+    setIsSubmitted,
+  } = useContext(GlobalContext);
+
   const [showHidePassword, setShowHidePassword] = useState(false);
 
-  const emails = users.map((user) => user.email);
-  const findEmail = emails.find((u) => u.email);
-  const passwords = users.map((user) => user.password);
-  const findPassword = passwords.find((u) => u.password);
-  // console.log(findEmail, passwords);
+  function authenticate(values) {
+    const { email, password } = values;
+    const user = users.find(
+      (u) => u.email === values.email && u.password === values.password
+    );
+    if (user) {
+      setIsSubmitted(true);
+    }
+    return user;
+  }
 
-  const cred = {
-    email: "abc@gmail.com",
-    password: "admin123",
+  const getNames = (values) => {
+    const { email, password } = values;
+    const user = users.find(
+      (u) => u.email === values.email && u.password === values.password
+    );
+    return user;
   };
 
   const formik = useFormik({
@@ -28,22 +46,19 @@ const Login = () => {
       password: "",
     },
     validationSchema: Yup.object({
-      email: Yup.string()
-        .email("Invalid email address")
-        .required("Required")
-        .matches(cred.email, "Email is not matching"),
+      email: Yup.string().email("Invalid email address").required("Required"),
       password: Yup.string()
         .min(8, "Password is too short - should be 8 chars minimum.")
         .matches(/(?=.*[0-9])/, "Password must contain a number.")
-        .matches(cred.password, "Try again")
         .required("No password provided"),
     }),
     onSubmit: (values, { setSubmitting }) => {
-      setIsSubmitted(true);
       setLoading(true);
+      setLoggedinUser(getNames(values));
+      authenticate(values);
       setTimeout(() => {
         setLoading(false);
-      }, 2000);
+      }, 500);
     },
   });
 
@@ -107,11 +122,11 @@ const Login = () => {
                 onChange={(e) => setShowHidePassword(!showHidePassword)}
               />
             </Form.Group>
-            <Button
-              variant="primary"
-              type="submit"
-              // disabled={formik.isSubmitting}
-            >
+            <Form.Text className="text-danger fs-5">
+              No matching user found
+            </Form.Text>
+            <br />
+            <Button variant="primary" type="submit" className="mt-3">
               Submit
             </Button>
           </Form>

@@ -10,10 +10,12 @@ import Books from "./pages/Books";
 import BookDetails from "./pages/BookDetails";
 import Login from "./components/Login";
 import { GlobalContext } from "./context/GlobalState";
+import { useContext } from "./context/GlobalState";
 import { useEffect, useState } from "react";
 
 export default function App() {
   const [users, setUsers] = useState([]);
+  const [loggedinUser, setLoggedinUser] = useState("");
   const [loading, setLoading] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -42,6 +44,8 @@ export default function App() {
     <>
       <GlobalContext.Provider
         value={{
+          loggedinUser,
+          setLoggedinUser,
           users,
           setUsers,
           loading,

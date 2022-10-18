@@ -1,26 +1,29 @@
-
 import { Button, Table, Modal } from "react-bootstrap";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Loader from "../../Loader";
 import UpdateBook from "../UpdateBook";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import CreateBook from "../CreateBook";
+import { GlobalContext } from "../../../context/GlobalState";
 
 const DataTableBooks = (props) => {
+  const { loggedinUser } = useContext(GlobalContext);
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState({ name: "", active: false });
-  const [book, setBook] = useState({})
+  const [book, setBook] = useState({});
 
   const { id } = useParams();
   const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location;
+  console.log(state);
 
- const handleBook = (book) => {
-  setModal({ name: "Update Book", active: true })
-  setBook(book)
-
- }
+  const handleBook = (book) => {
+    setModal({ name: "Update Book", active: true });
+    setBook(book);
+  };
 
   const fetchbooks = async () => {
     setLoading(true);
@@ -96,9 +99,6 @@ const DataTableBooks = (props) => {
     }
   };
 
-  
-
-
   return (
     <>
       <Button
@@ -108,13 +108,19 @@ const DataTableBooks = (props) => {
       >
         Go Back
       </Button>
-      <Button
-        variant="primary"
-        className="btn my-3 float-start mx-5"
-        onClick={() => setModal({ name: "Create Book", active: true })}
-      >
-        Create book
-      </Button>
+
+      {((loggedinUser.firstname === "Meerim" &&
+        loggedinUser.lastname === "Batyrkanova") ||
+        loggedinUser.id === book.id) && (
+        <Button
+          variant="primary"
+          className="btn my-3 float-start mx-5"
+          onClick={() => setModal({ name: "Create Book", active: true })}
+        >
+          Create book
+        </Button>
+      )}
+
       {loading ? (
         <Loader />
       ) : (
@@ -125,8 +131,8 @@ const DataTableBooks = (props) => {
               <th>Title</th>
               <th>Author</th>
               <th>Genre</th>
-              <th>Description</th>
               <th>ISBN</th>
+              <th>Details</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -142,27 +148,37 @@ const DataTableBooks = (props) => {
                       alt={book.title}
                     />
                   </td>
-                  <td>
-                    <Link to={`/books/details/${book.id}`} state={book}>
-                      {book.title}
-                    </Link>
-                  </td>
+                  <td>{book.title}</td>
                   <td>{book.author}</td>
                   <td>{book.genre}</td>
-                  <td>{book.description}</td>
+
                   <td>{book.isbn}</td>
                   <td>
-                    <Button variant="primary"
-                      onClick={() => handleBook(book) }>
-                      Update
-                      </Button>
-                    <Button
-                      variant="danger"
-                      onClick={() => deleteBook(book.id)}
-                    >
-                      Delete
-                    </Button>
+                    {" "}
+                    <Link to={`/books/details/${book.id}`} state={book}>
+                      View details
+                    </Link>
                   </td>
+
+                  {((loggedinUser.firstname === "Meerim" &&
+                    loggedinUser.lastname === "Batyrkanova") ||
+                    (loggedinUser.firtsname === state.firstname &&
+                      loggedinUser.lastsname === state.lastname)) && (
+                    <td>
+                      <Button
+                        variant="primary"
+                        onClick={() => handleBook(book)}
+                      >
+                        Update
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => deleteBook(book.id)}
+                      >
+                        Delete
+                      </Button>
+                    </td>
+                  )}
                 </tr>
               ))
             ) : (
@@ -175,18 +191,22 @@ const DataTableBooks = (props) => {
       )}
       {modal.active && (
         <Modal show={modal.active} onHide={() => setModal({ active: false })}>
-
-          
-
-          {modal.name === "Create Book" ? 
+          {modal.name === "Create Book" ? (
             <CreateBook
               modal={modal}
               setModal={setModal}
               createBook={createBook}
-            /> 
-            
-          : 
-          <UpdateBook modal={modal} setModal={setModal} id={id} book={book} setBook={setBook} updateBook={updateBook}/>}
+            />
+          ) : (
+            <UpdateBook
+              modal={modal}
+              setModal={setModal}
+              id={id}
+              book={book}
+              setBook={setBook}
+              updateBook={updateBook}
+            />
+          )}
         </Modal>
       )}
     </>

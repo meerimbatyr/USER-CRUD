@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Book.css";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import Rating from "../Rating";
 import Review from "../Reviews";
 import axios from "axios";
 import Loader from "../../Loader";
-import ThankYouMsg from "../ThankYouMsg"
+import ThankYouMsg from "../ThankYouMsg";
+import { GlobalContext } from "../../../context/GlobalState";
+import Login from "../../Login";
 
 function Book(props) {
-
-  const [loading, setLoading] = useState([])
-  const [reviews, setReviews] = useState([])
-  const [isReviewSent, setReviewSent] = useState(false)
+  const { isSubmitted } = useContext(GlobalContext);
+  const [loading, setLoading] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [isReviewSent, setReviewSent] = useState(false);
   const location = useLocation();
   const { state } = location;
   const navigate = useNavigate();
 
-
   useEffect(() => {
     fetchReviews();
   }, []);
-
 
   const fetchReviews = async () => {
     setLoading(true);
@@ -40,18 +40,19 @@ function Book(props) {
     }
   };
 
-
   const deleteReview = async (reviewID) => {
     setLoading(true);
-  
+
     try {
       await axios.delete(
         `https://6300279d34344b643105731e.mockapi.io/api/v1/users/${state.userId}/books/${state.id}/reviews/${reviewID}`
       );
-      const filteredReviews = reviews.filter((review) => review.id !== reviewID);
+      const filteredReviews = reviews.filter(
+        (review) => review.id !== reviewID
+      );
       setReviews(filteredReviews);
-    } catch {
-      console.log("some error with deleting a book");
+    } catch (err) {
+      console.log("some error with deleting a book", err);
     } finally {
       setTimeout(() => {
         setLoading(false);
@@ -68,7 +69,6 @@ function Book(props) {
         <div className="book-info">
           <div className="image">
             <img src={state.cover} alt={state.title} />
-           
           </div>
           <div>
             <p>
@@ -99,20 +99,37 @@ function Book(props) {
           </div>
         </div>
       </section>
-            <div>
-              {isReviewSent ? <ThankYouMsg/>
-              :
-              <Rating book={state} fetchReviews={fetchReviews} reviews={reviews} setReviews={setReviews} loading={loading} setLoading={setLoading} setReviewSent={setReviewSent}/>
-               }
-             
-            </div>
-            <div className="review-section">
-              <h2>Reviews: </h2>
-              {loading ? <Loader/> : reviews.map((el) => <Review el = {el} key={el.id} deleteReview={deleteReview} loading={loading} setLoading={setLoading}/> )}
-              
-             </div>
-             
-            
+      <div>
+        {isReviewSent ? (
+          <ThankYouMsg />
+        ) : (
+          <Rating
+            book={state}
+            fetchReviews={fetchReviews}
+            reviews={reviews}
+            setReviews={setReviews}
+            loading={loading}
+            setLoading={setLoading}
+            setReviewSent={setReviewSent}
+          />
+        )}
+      </div>
+      <div className="review-section">
+        <h2>Reviews: </h2>
+        {loading ? (
+          <Loader />
+        ) : (
+          reviews.map((el) => (
+            <Review
+              el={el}
+              key={el.id}
+              deleteReview={deleteReview}
+              loading={loading}
+              setLoading={setLoading}
+            />
+          ))
+        )}
+      </div>
     </div>
   );
 }
