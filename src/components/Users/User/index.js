@@ -153,19 +153,19 @@ const User = () => {
               />
             </Col>
 
-            {(loggedinUser.firstname === "Meerim") &
-              (loggedinUser.lastname === "Batyrkanova") && (
-              <Col className="text-end">
-                <Button
-                  variant="success"
-                  onClick={() =>
-                    setModal({ name: "Create User", active: true })
-                  }
-                >
-                  Create New User
-                </Button>
-              </Col>
-            )}
+            {loggedinUser.firstname === "Meerim" &&
+              loggedinUser.lastname === "Batyrkanova" && (
+                <Col className="text-end">
+                  <Button
+                    variant="success"
+                    onClick={() =>
+                      setModal({ name: "Create User", active: true })
+                    }
+                  >
+                    Create New User
+                  </Button>
+                </Col>
+              )}
           </Row>
           <DataTable
             users={currentUsers}

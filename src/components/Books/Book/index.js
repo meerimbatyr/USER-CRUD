@@ -9,7 +9,6 @@ import Loader from "../../Loader";
 import ThankYouMsg from "../ThankYouMsg";
 
 import { GlobalContext } from "../../../context/GlobalState";
-import Login from "../../Login";
 
 function Book(props) {
   const { isSubmitted } = useContext(GlobalContext);

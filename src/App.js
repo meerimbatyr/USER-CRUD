@@ -10,7 +10,7 @@ import Books from "./pages/Books";
 import BookDetails from "./pages/BookDetails";
 import Login from "./components/Login";
 import { GlobalContext } from "./context/GlobalState";
-import { useContext } from "./context/GlobalState";
+
 import { useEffect, useState } from "react";
 
 export default function App() {
