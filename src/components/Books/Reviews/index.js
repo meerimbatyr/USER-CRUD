@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import "./review.css";
 import { FaStar } from "react-icons/fa";
 import Loader from "../../Loader";
 import { nanoid } from "nanoid";
-
+import { GlobalContext } from "../../../context/GlobalState" 
 
 
 const Review = ({ el, deleteReview, loading, setLoading }) => {
 
+  const { loggedinUser } = useContext(GlobalContext);
 
   const helperFn =(num) => {
     const arr = []
@@ -23,8 +24,8 @@ const Review = ({ el, deleteReview, loading, setLoading }) => {
 <section className="review" key={el.id} >
         <div className="review-info">
           <div className="review-image">
-            <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Translate_logo.max-500x500.png" alt={""} />
-            <p>User Name</p>
+            <img src={el.fromUser.avatar} alt="user-avatar" />
+            <p>{el.fromUser.firstname + " " + el.fromUser.lastname }</p>
           </div>
           <div className="rating-info">
            
@@ -39,7 +40,8 @@ const Review = ({ el, deleteReview, loading, setLoading }) => {
        
           </div>
         </div>
-          <button onClick={() => deleteReview(el.id)} className='deleteBtn'>x</button>
+         {(loggedinUser.firstname === "Meerim" &&
+        loggedinUser.lastname === "Batyrkanova") && <button onClick={() => deleteReview(el.id)} className='deleteBtn'>x</button> } 
         </section>
       
     </>

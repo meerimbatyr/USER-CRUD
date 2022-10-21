@@ -1,11 +1,12 @@
 import { FaStar } from "react-icons/fa";
 import React from "react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import "./rating.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Loader from "../../Loader";
 import { nanoid } from "nanoid";
+import { GlobalContext } from "../../../context/GlobalState" 
 
 const Rating = ( {book, loading, setLoading, setReviews, reviews, setReviewSent} ) => {
   const [rating, setRating] = useState(null);
@@ -14,6 +15,8 @@ const Rating = ( {book, loading, setLoading, setReviews, reviews, setReviewSent}
   const [text, setText] = useState('');
   const [review, setReview] = useState({})
   const ref = useRef()
+
+  const { loggedinUser } = useContext(GlobalContext);
 
   // useEffect(() => {
   //   console.log(rating, text)
@@ -29,7 +32,7 @@ const Rating = ( {book, loading, setLoading, setReviews, reviews, setReviewSent}
   const onSubmit = () => {
     let newText = ref.current.value
     // let newRating = ref.current.value
-    setReview({text: newText, rating: rating})
+    setReview({text: newText, rating: rating, })
     postReview(review);
     setText("")
     setRating(null)
@@ -39,7 +42,7 @@ const Rating = ( {book, loading, setLoading, setReviews, reviews, setReviewSent}
 
 
   useEffect(() => {
-    setReview({text:text, rating:rating})
+    setReview({text:text, rating:rating, fromUser: loggedinUser})
 
   },[text, rating])
 
