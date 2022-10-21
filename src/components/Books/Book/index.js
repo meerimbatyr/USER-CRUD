@@ -125,7 +125,7 @@ function Book(props) {
         {loading ? (
           <Loader />
         ) : (
-          reviews.map((el) => (
+          (reviews.reverse()).map((el) => (
             <Review
               el={el}
               key={el.id}
