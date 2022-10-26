@@ -109,8 +109,8 @@ const DataTableBooks = (props) => {
         Go Back
       </Button>
 
-      {((loggedinUser.firstname === "Meerim" &&
-        loggedinUser.lastname === "Batyrkanova") ||
+      {((loggedinUser.firstname === "Admin" &&
+        loggedinUser.lastname === "Seytech") ||
         (loggedinUser.firstname === state.firstname &&
           loggedinUser.lastname === state.lastname)) && (
         <Button
@@ -168,8 +168,8 @@ const DataTableBooks = (props) => {
                     </Link>
                   </td>
 
-                  {((loggedinUser.firstname === "Meerim" &&
-                    loggedinUser.lastname === "Batyrkanova") ||
+                  {((loggedinUser.firstname === "Admin" &&
+                    loggedinUser.lastname === "Seytech") ||
                     loggedinUser.id === book.userId) && (
                     <td>
                       <Button
