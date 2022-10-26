@@ -25,7 +25,7 @@
 - users except admin cannot create, update,delete data
 - on review page shoould be displayed the current user name
 
-https://zany-roof.surge.sh/
+https://book-management-crud.surge.sh/
 
 ![Screenshot at Oct 15 03-17-45](https://user-images.githubusercontent.com/93488659/195960198-f05f55e9-f960-495e-99e1-428a3dc8839d.png)
 
