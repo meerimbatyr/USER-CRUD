@@ -2,7 +2,6 @@ import { Button, Form, Modal } from "react-bootstrap";
 import { useState } from "react";
 
 const CreateBook = ({ modal, setModal, createBook }) => {
-  const [validated, setValidated] = useState(false);
   const initialData = {
     id: null,
     title: "",

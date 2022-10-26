@@ -64,8 +64,8 @@ const DataTable = ({
               </Link>
             </td>
 
-            {((loggedinUser.firstname === "Meerim" &&
-              loggedinUser.lastname === "Batyrkanova") ||
+            {((loggedinUser.firstname === "Admin" &&
+              loggedinUser.lastname === "Seytech") ||
               (loggedinUser.firstname === user.firstname &&
                 loggedinUser.lastname === user.lastname)) && (
               <td>

@@ -153,8 +153,8 @@ const User = () => {
               />
             </Col>
 
-            {loggedinUser.firstname === "Meerim" &&
-              loggedinUser.lastname === "Batyrkanova" && (
+            {loggedinUser.firstname === "Admin" &&
+              loggedinUser.lastname === "Seytech" && (
                 <Col className="text-end">
                   <Button
                     variant="success"

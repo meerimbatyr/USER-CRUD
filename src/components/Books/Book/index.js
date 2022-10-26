@@ -125,15 +125,17 @@ function Book(props) {
         {loading ? (
           <Loader />
         ) : (
-          (reviews.reverse()).map((el) => (
-            <Review
-              el={el}
-              key={el.id}
-              deleteReview={deleteReview}
-              loading={loading}
-              setLoading={setLoading}
-            />
-          ))
+          reviews
+            .reverse()
+            .map((el) => (
+              <Review
+                el={el}
+                key={el.id}
+                deleteReview={deleteReview}
+                loading={loading}
+                setLoading={setLoading}
+              />
+            ))
         )}
       </div>
     </div>

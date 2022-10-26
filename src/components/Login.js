@@ -126,12 +126,6 @@ const Login = () => {
               />
             </Form.Group>
 
-            {!loggedinUser && (
-              <Form.Text className="text-danger fs-5">
-                No matching user found
-              </Form.Text>
-            )}
-
             <br />
             <Button variant="primary" type="submit" className="mt-3">
               Submit
